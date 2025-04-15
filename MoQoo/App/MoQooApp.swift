@@ -11,7 +11,7 @@ import SwiftUI
 struct MoQooApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabBarView()
         }
     }
 }
