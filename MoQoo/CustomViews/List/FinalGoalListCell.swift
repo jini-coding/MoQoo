@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct FinalGoalListCell: View {
-    var title: String = "Figma 정복하기"
-    var detail: String = "UI/UX를 위해..."
-    var status: String = "진행 중" //012로할까...
-    var progress: Int = 25
+    var title: String
+    var detail: String
+    var status: String
+    var progress: Int
     //var endDate: String = ""
     
     var body: some View {
@@ -58,7 +58,7 @@ struct FinalGoalListCell: View {
                 HStack(spacing: 19) {
                     //바그래프
                     StickBar(progress: progress)
-                        .frame(width: 272, height: 8)
+                        .frame(width: 262, height: 8)
                         .padding(.leading, 26)
                     
                     //퍼센트
@@ -73,9 +73,9 @@ struct FinalGoalListCell: View {
             
         }
         .frame(height: 111)
-        .cornerRadius(10)
+        .cornerRadius(12)
         .padding(.bottom, 12)
-        
+        .padding(.horizontal, 16)
     }
 }
 

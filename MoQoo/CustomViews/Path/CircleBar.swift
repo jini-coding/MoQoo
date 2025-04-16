@@ -15,7 +15,7 @@ struct CircleBar: View {
         ZStack {
             Path { path in
                 path.addArc(center: CGPoint(x: 60, y: 60),
-                            radius: 40,
+                            radius: 50,
                             startAngle: .degrees(360),
                             endAngle: .degrees(0),
                             clockwise: true)
@@ -24,7 +24,7 @@ struct CircleBar: View {
             
             Path { path in
                 path.addArc(center: CGPoint(x: 60, y: 60),
-                            radius: 40,
+                            radius: 50,
                             startAngle: .degrees(120),
                             endAngle: .degrees(-90),
                             clockwise: true)

@@ -16,7 +16,7 @@ struct StickBar: View {
             Path { path in
                 path.move(to: .zero)
                 path.addLine(to: .zero)
-                path.addLine(to: CGPoint(x: 272, y: 0))
+                path.addLine(to: CGPoint(x: 262, y: 0))
                 path.closeSubpath()
             }
             .stroke(Color.mqGrayStatusBg, style: StrokeStyle(lineWidth: 8, lineCap: .round, lineJoin: .round))
@@ -24,12 +24,12 @@ struct StickBar: View {
             Path { path in
                 path.move(to: .zero)
                 path.addLine(to: .zero)
-                path.addLine(to: CGPoint(x: (272 * progress)/100, y: 0))
+                path.addLine(to: CGPoint(x: (262 * progress)/100, y: 0))
                 path.closeSubpath()
             }
             .stroke(Color(hex: "#A6E1DE"), style: StrokeStyle(lineWidth: 8, lineCap: .round, lineJoin: .round))
         }
-        .frame(width: 272, height: 8)
+        .frame(width: 262, height: 8)
         
     }
 }

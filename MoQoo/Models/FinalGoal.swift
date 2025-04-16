@@ -13,6 +13,5 @@ struct FinalGoal: Codable {
     var status: String //진행상태
     var progress: Float //진행률
     var endDate: String //목표마감일
-    
-    //서브골 배열
+    var SubGoals: [SubGoal]
 }
