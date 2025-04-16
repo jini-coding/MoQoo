@@ -36,7 +36,11 @@ extension Color {
     static let mqGraytext = Color(hex: "#85888A")
     static let mqGrayPlaceholder = Color(hex: "#BEC4C6")
     
-
+    static let mqGrayStatusBg = Color(hex: "#E8E8E8")
+    static let mqGrayStatusText = Color(hex: "#8A8A8A")
+    
+    static let mqMintBg = Color(hex: "#DFF2F1")
+    static let mqMintText = Color(hex: "#00A99D")
 }
 
 
