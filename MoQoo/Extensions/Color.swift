@@ -29,6 +29,7 @@ extension Color {
     
     // 16진수 색상코드 가져와서 커스텀 컬러 지정
     static let mqMain = Color(hex: "#BA98EA")
+    static let mqLightMain = Color(hex: "#FDFAFE")
     
     static let mqGray = Color(hex: "#C4C4C4")
     static let mqGraybg = Color(hex: "#F5F6FA")
