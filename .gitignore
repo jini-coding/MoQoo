@@ -51,6 +51,7 @@ MoQoo/Utils/Font/*.otf
 
 # Info.plist
 MoQoo/Info.plist
+MoQoo/GoogleService-Info.plist
 
 # Swift Package Manager
 # Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
