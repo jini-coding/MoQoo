@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GoalView: View {
+    @EnvironmentObject var dataManager: DataManager
     
     var body: some View {
         
@@ -50,13 +51,21 @@ struct GoalView: View {
                     
                     ScrollView {
                         LazyVStack(spacing: 0) {
-                            ForEach(0..<1, id: \.self) { _ in
-                                FinalGoalListCell(title: "Figma 정복하기", detail: "UI/UX 공부를 위해서...", status: "진행 중", progress: 25)
-                                FinalGoalListCell(title: "Swift 정복하기", detail: "iOS 공부를 위해서...", status: "진행 중", progress: 79)
-                                FinalGoalListCell(title: "JLPT N3 따기", detail: "일본어도 배우고 싶어!", status: "시작 전", progress: 0)
-                                FinalGoalListCell(title: "Figma 정복하기", detail: "UI/UX 공부를 위해서...", status: "진행 중", progress: 25)
+                            ForEach(dataManager.finalGoals) { goal in
+                                    FinalGoalListCell(
+                                        title: goal.title,
+                                        detail: goal.resolution,
+                                        status: "진행 중", // 아직 상태(status)를 따로 저장하지 않았다면 빈 문자열로
+                                        progress: goal.progress
+                                    )
                             }
-                            .onMove(perform: move)
+//                            ForEach(0..<1, id: \.self) { _ in
+//                                FinalGoalListCell(title: "Figma 정복하기", detail: "UI/UX 공부를 위해서...", status: "진행 중", progress: 25)
+//                                FinalGoalListCell(title: "Swift 정복하기", detail: "iOS 공부를 위해서...", status: "진행 중", progress: 79)
+//                                FinalGoalListCell(title: "JLPT N3 따기", detail: "일본어도 배우고 싶어!", status: "시작 전", progress: 0)
+//                                FinalGoalListCell(title: "Figma 정복하기", detail: "UI/UX 공부를 위해서...", status: "진행 중", progress: 25)
+//                            }
+//                            .onMove(perform: move)
                         }
                         .padding(.horizontal, 0)
                     }
@@ -102,4 +111,5 @@ struct GoalView: View {
 
 #Preview {
     GoalView()
+        .environmentObject(DataManager())
 }

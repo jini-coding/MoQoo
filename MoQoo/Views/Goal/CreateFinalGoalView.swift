@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct CreateFinalGoalView: View {
+    @EnvironmentObject var dataManager: DataManager
+    @Environment(\.dismiss) var dismiss
+    
     @State private var goalName: String = ""
     @State private var goalDetail: String = ""
-    @State private var period: String = ""
-    
-    @Environment(\.dismiss) var dismiss
+    @State private var targetDate: Date = Date()
     
     var body: some View {
         VStack {
@@ -37,7 +38,7 @@ struct CreateFinalGoalView: View {
                 
                 InputSection(title: "상세 설명 및 다짐", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, isMultiline: true)
                 
-                InputSection(title: "목표 기간", placeholder: "목표 기간을 설정해주세요", text: $period)
+                DatePickerSection(title: "목표일", targetDate: $targetDate)
             }
             
             Spacer()
@@ -54,6 +55,7 @@ struct CreateFinalGoalView: View {
     }
     
     func createGoal() {
+        dataManager.createFinalGoal(title: goalName, description: goalDetail, targetDate: targetDate)
         print("골 생성")
     }
 }

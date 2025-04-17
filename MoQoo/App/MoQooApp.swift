@@ -22,12 +22,15 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct MoQooApp: App {
   // register app delegate for Firebase setup
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject var dataManager = DataManager()
 
 
   var body: some Scene {
     WindowGroup {
       NavigationView {
-          TabBarView()
+          //TabBarView()
+          LoginView()
+              .environmentObject(dataManager)
       }
     }
   }

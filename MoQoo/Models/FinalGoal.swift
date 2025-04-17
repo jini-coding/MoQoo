@@ -7,11 +7,14 @@
 
 import Foundation
 
-struct FinalGoal: Codable {
-    var title: String //이름
-    var detail: String //상세정보
-    var status: String //진행상태
-    var progress: Float //진행률
-    var endDate: String //목표마감일
-    var SubGoals: [SubGoal]
+struct FinalGoal: Identifiable, Codable {
+    var id: String
+    var title: String
+    var description: String
+    var resolution: String //다짐
+    var progress: Int //진행률
+    var targetDate: Date //목표마감일
+    var colorHex: String
+    var createdAt: Date
+    var subGoals: [SubGoal]
 }
