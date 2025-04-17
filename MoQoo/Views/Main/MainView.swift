@@ -29,15 +29,22 @@ struct MainView: View {
                     .padding(.bottom, 22)
                     
                     
-                    
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(.white)
-                        .padding(.horizontal, 16)
-                        .frame(height: 92)
-                        .padding(.bottom, 12)
-                    
+                    ZStack {
+
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(.white)
+                            .padding(.horizontal, 16)
+                            .frame(height: 92)
+                            .padding(.bottom, 12)
+                        
+                        MainDashboardView()
+                            .offset(x: 0, y: -5)
+                    }
                     
                     ZStack {
+                        Triangle()
+                            .offset(x: -80, y: -272) //위치 나중에 원 기준으로....
+                        
                         RoundedRectangle(cornerRadius: 8)
                             .fill(.white)
                             .ignoresSafeArea()

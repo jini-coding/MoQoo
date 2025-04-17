@@ -13,15 +13,14 @@ struct Triangle: View {
         ZStack {
             Path { path in
                 path.move(to: .zero)
-                path.addLine(to: .zero)
-                
-                path.addLine(to: CGPoint(x: 11, y: 22))
-                path.addLine(to: CGPoint(x: 22, y: 0))
+                path.move(to: CGPoint(x: 9, y: 0))
+                path.addLine(to: CGPoint(x: 0, y: 18))
+                path.addLine(to: CGPoint(x: 18, y: 18))
                 path.closeSubpath()
             }
-            .stroke(Color.mqGrayStatusBg, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+            .fill(Color.white)
         }
-        .frame(width: 120, height: 120)
+        .frame(width: 18, height: 18)
         
     }
 }
