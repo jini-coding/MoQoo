@@ -46,7 +46,7 @@ struct GoalDetailView: View {
                         }
                         
 //                        Button(action: {
-//                            //ㅇㅇ
+//                            dataManager.deleteFinalGoal(goalId: goalId)
 //                        }) {
 //                            Image("menuIcon")
 //                        }

@@ -189,4 +189,28 @@ class DataManager: ObservableObject {
             }
         }
     }
+    
+    func deleteFinalGoal(goalId: String) {
+        let db = Firestore.firestore()
+        let ref = db.collection("FinalGoals").document(goalId).delete() { error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                print("골 삭제 완료!!")
+            }
+        }
+
+    }
+    
+    func deleteTask(taskId: String) {
+        let db = Firestore.firestore()
+        let ref = db.collection("SubGoals").document(taskId).delete() { error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                print("테스크 삭제 완료!!")
+            }
+        }
+
+    }
 }
