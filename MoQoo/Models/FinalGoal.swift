@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 struct FinalGoal: Identifiable, Codable {
-    var id: String
+    @DocumentID var id: String?
     var title: String
     var description: String
     var resolution: String //다짐

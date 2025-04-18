@@ -14,7 +14,7 @@ struct LoginView: View {
     @State private var isLoggedIn = false
     
     var body: some View {
-        if !isLoggedIn {
+        if isLoggedIn {
             TabBarView()
         }
         else {

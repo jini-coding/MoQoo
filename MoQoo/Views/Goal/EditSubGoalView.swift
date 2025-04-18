@@ -8,9 +8,16 @@
 import SwiftUI
 
 struct EditSubGoalView: View {
-    @State private var goalName: String = ""
-    @State private var goalDetail: String = ""
-    @State private var period: String = ""
+    @EnvironmentObject var dataManager: DataManager
+    
+    let taskId: String
+    
+    @State var goalName: String
+    @State var goalDetail: String
+    @State var targetDate: Date
+    
+    @State private var goalNameLength: Int = 0
+    @State private var goalDetailLength: Int = 0
     
     @Environment(\.dismiss) var dismiss
     
@@ -20,7 +27,7 @@ struct EditSubGoalView: View {
     var body: some View {
         VStack {
             NavigationBar {
-                Text("서브 목표 생성")
+                Text("서브 목표 수정")
                     .font(.mq(.semibold, size: 18))
             } leading: {
                 Button(action: {
@@ -32,14 +39,11 @@ struct EditSubGoalView: View {
             Spacer().frame(height: 36)
             
             VStack(spacing: 28) {
-                InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName)
+                InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName, textLength: $goalNameLength)
                 
-                InputSection(title: "목표 상세 설명", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, isMultiline: true)
+                InputSection(title: "목표 상세 설명", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, textLength: $goalDetailLength, isMultiline: true)
                 
-                InputSection(title: "목표 기간", placeholder: "목표 기간을 설정해주세요", text: $period)
-                
-                //목표 우선순위
-                PrioritySection(title: "우선도")
+                DatePickerSection(title: "목표일", targetDate: $targetDate)
 
             }
             
@@ -48,18 +52,20 @@ struct EditSubGoalView: View {
             
             Spacer()
             
-            BottomTwoButton(cancelLabel: "취소", cancelAction: {}, confirmLabel: "완료", confirmAction: {})
+            BottomTwoButton(cancelLabel: "취소", cancelAction: {}, 
+                            confirmLabel: "완료", confirmAction: { editTask() })
         }
         .navigationBarHidden(true)
         //.navigationTitle("서브 목표 수정")
         
     }
     
-    func createGoal() {
-        print("골 생성")
+    func editTask() {
+        print("골 수정")
+        dataManager.editTask(taskId: taskId, title: goalName, description: goalDetail, targetDate: targetDate)
     }
 }
 
-#Preview {
-    EditSubGoalView()
-}
+//#Preview {
+//    EditSubGoalView()
+//}

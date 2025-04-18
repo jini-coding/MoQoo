@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 struct SubGoal: Identifiable, Codable {
-    var id: String
+    @DocumentID var id: String?
     var title: String //이름
     var description: String //상세정보
     var status: Int //진행상태

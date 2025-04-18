@@ -15,6 +15,9 @@ struct CreateSubGoalView: View {
     @State private var goalDetail: String = ""
     @State private var targetDate: Date = Date()
     
+    @State private var goalNameLength: Int = 0
+    @State private var goalDetailLength: Int = 0
+    
     @Environment(\.dismiss) var dismiss
     
 //    @State private var selectedPriority = "중"
@@ -35,9 +38,9 @@ struct CreateSubGoalView: View {
             Spacer().frame(height: 36)
             
             VStack(spacing: 28) {
-                InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName)
+                InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName, textLength: $goalNameLength)
                 
-                InputSection(title: "목표 상세 설명", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, isMultiline: true)
+                InputSection(title: "목표 상세 설명", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, textLength: $goalDetailLength, isMultiline: true)
                 
                 DatePickerSection(title: "목표일", targetDate: $targetDate)
                 
@@ -66,6 +69,6 @@ struct CreateSubGoalView: View {
     }
 }
 
-#Preview {
-    CreateSubGoalView()
-}
+//#Preview {
+//    CreateSubGoalView(goalName: "", goalDetail: "", targetDate: Date())
+//}

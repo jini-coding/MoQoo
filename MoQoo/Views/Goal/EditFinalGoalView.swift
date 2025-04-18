@@ -8,9 +8,16 @@
 import SwiftUI
 
 struct EditFinalGoalView: View {
-    @State private var goalName: String = ""
-    @State private var goalDetail: String = ""
-    @State private var period: String = ""
+    @EnvironmentObject var dataManager: DataManager
+    
+    let goalId: String
+    
+    @State var goalName: String
+    @State var goalDetail: String
+    @State var targetDate: Date
+    
+    @State private var goalNameLength: Int = 0
+    @State private var goalDetailLength: Int = 0
     
     @Environment(\.dismiss) var dismiss
     
@@ -33,29 +40,42 @@ struct EditFinalGoalView: View {
             Spacer().frame(height: 20)
             
             VStack(spacing: 28) {
-                InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName)
+                InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName, textLength: $goalNameLength)
                 
-                InputSection(title: "상세 설명 및 다짐", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, isMultiline: true)
+                InputSection(title: "상세 설명 및 다짐", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, textLength: $goalDetailLength, isMultiline: true)
                 
-                InputSection(title: "목표 기간", placeholder: "목표 기간을 설정해주세요", text: $period)
+                DatePickerSection(title: "목표일", targetDate: $targetDate)
             }
             
             Spacer()
             
             Spacer()
             
-            BottomTwoButton(cancelLabel: "취소", cancelAction: {}, confirmLabel: "완료", confirmAction: {})
+            BottomTwoButton(cancelLabel: "취소", cancelAction: {},
+                            confirmLabel: "완료", confirmAction: {editGoal()}
+            )
         }
         .navigationBarHidden(true)
+        .onAppear {
+            print("[LOG] EditFinalGoalView appeared!")
+            //dataManager.fetchGoalDetail(id: goalId) 오류...
+        }
         //.navigationTitle("목표 수정")
         
     }
     
     func editGoal() {
-        print("골 생성")
+        print("골 수정")
+        dataManager.editFinalGoal(goalId: goalId, title: goalName, description: goalDetail, targetDate: targetDate)
+    }
+    
+    func formattedDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: date)
     }
 }
 
-#Preview {
-    EditFinalGoalView()
-}
+//#Preview {
+//    EditFinalGoalView(goalId: 1, goalName: "", goalDetail: "", period: "")
+//}

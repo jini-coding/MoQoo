@@ -53,7 +53,7 @@ struct GoalView: View {
                         LazyVStack(spacing: 0) {
                             ForEach(dataManager.finalGoals) { goal in
                                 NavigationLink(
-                                        destination: GoalDetailView(title: goal.title)
+                                    destination: GoalDetailView(goalId: goal.id!, title: goal.title, goal: goal)
                                 ) {
                                     FinalGoalListCell(
                                         title: goal.title,

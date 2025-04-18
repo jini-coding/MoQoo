@@ -24,7 +24,7 @@ struct MypageView: View {
                         .cornerRadius(10)
                 }
                 
-                NavigationLink(destination: EditFinalGoalView()) {
+                NavigationLink(destination: EditFinalGoalView(goalId: "", goalName: "", goalDetail: "", targetDate: Date())) {
                     Text("목표 수정하기")
                         .foregroundColor(.white)
                         .padding()
@@ -40,7 +40,7 @@ struct MypageView: View {
                         .cornerRadius(10)
                 }
                 
-                NavigationLink(destination: EditSubGoalView()) {
+                NavigationLink(destination: EditSubGoalView(taskId: "", goalName: "", goalDetail: "", targetDate: Date())) {
                     Text("서브 목표 수정하기")
                         .foregroundColor(.white)
                         .padding()

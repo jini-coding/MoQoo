@@ -88,6 +88,13 @@ class DataManager: ObservableObject {
         }
     }
     
+    func fetchGoalDetail(id: String) {
+
+
+    }
+
+
+    
     func createFinalGoal(title: String, description: String, targetDate: Date) {
         let db = Firestore.firestore()
         let ref = db.collection("FinalGoals").document()
@@ -98,7 +105,7 @@ class DataManager: ObservableObject {
                 "title": title,
                 "description": description,
                 "resolution": "아아아",
-                "progresss": 0,
+                "progress": 0,
                 "targetDate": Timestamp(date: targetDate),
                 "colorHex": "#FFCC00",
                 "createdAt": Timestamp(date: createdAt)
@@ -137,5 +144,49 @@ class DataManager: ObservableObject {
             }
         }
         
+    }
+    
+    func editFinalGoal(goalId: String, title: String, description: String, targetDate: Date) {
+        let db = Firestore.firestore()
+        let ref = db.collection("FinalGoals").document(goalId)
+        
+        //let createdAt = Date()
+        let updatedGoal: [String: Any] = [
+                "title": title,
+                "description": description,
+                "resolution": "아아아아아아아아",
+                "progress": 2,
+                "targetDate": Timestamp(date: targetDate),
+                "colorHex": "#FFCC00"
+        ]
+        
+        ref.setData(updatedGoal, merge: true) { error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                print("골 수정 완료!!")
+            }
+        }
+    }
+    
+    func editTask(taskId: String, title: String, description: String, targetDate: Date) {
+        let db = Firestore.firestore()
+        let ref = db.collection("SubGoals").document(taskId)
+        
+        let updatedTask: [String: Any] = [
+                "title": title,
+                "description": description,
+                "status": 0,
+                "targetDate": Timestamp(date: targetDate),
+                "priority": 2
+        ]
+        
+        ref.setData(updatedTask, merge: true) { error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                print("테스크 수정 완료!!")
+            }
+        }
     }
 }

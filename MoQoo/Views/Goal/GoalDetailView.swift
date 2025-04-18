@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct GoalDetailView: View {
+    var goalId: String
     var title: String
+    
+    var goal: FinalGoal
     
     @EnvironmentObject var dataManager: DataManager
     @Environment(\.dismiss) var dismiss
@@ -19,7 +22,7 @@ struct GoalDetailView: View {
             
             VStack {
                 NavigationBar {
-                    Text("목표 상세 보기")
+                    Text("\(title)")
                         .font(.mq(.semibold, size: 18))
                 } leading: {
                     Button(action: {
@@ -34,11 +37,19 @@ struct GoalDetailView: View {
                             Image("addIcon")
                         }
                         
-                        Button(action: {
-                            //ㅇㅇ
-                        }) {
+                        NavigationLink(destination:
+                                        EditFinalGoalView(goalId: goalId, goalName: goal.title, goalDetail: goal.description, targetDate: goal.targetDate)
+                                       //EditFinalGoalView(goalId: goalId)
+                                       
+                        ) {
                             Image("menuIcon")
                         }
+                        
+//                        Button(action: {
+//                            //ㅇㅇ
+//                        }) {
+//                            Image("menuIcon")
+//                        }
                     }
                     
                     
@@ -103,7 +114,15 @@ struct GoalDetailView: View {
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         ForEach(dataManager.subGoals) { goal in
-                            SubGoalListCell(title: goal.title, detail: goal.description, status: goal.status, leftDay: goal.status)
+                            NavigationLink(
+                                destination: EditSubGoalView(taskId: goal.id!, goalName: goal.title, goalDetail: goal.description, targetDate: goal.targetDate)
+                            ) {
+                                SubGoalListCell(title: goal.title,
+                                                detail: goal.description,
+                                                status: goal.status,
+                                                leftDay: goal.status)
+                            }
+                            
                         }
                     }
                     .padding(.horizontal, 0)
@@ -116,6 +135,6 @@ struct GoalDetailView: View {
     }
 }
 
-#Preview {
-    GoalDetailView(title: "Figma 정복하기")
-}
+//#Preview {
+//    GoalDetailView(goalId: "1", title: "Figma 정복하기")
+//}
