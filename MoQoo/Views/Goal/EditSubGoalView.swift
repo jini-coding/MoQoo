@@ -26,7 +26,7 @@ struct EditSubGoalView: View {
                 Button(action: {
                     dismiss()
                 }) {
-                    Image(systemName: "chevron.left") }
+                    Image("backIcon") }
             }
             
             Spacer().frame(height: 36)

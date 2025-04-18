@@ -10,9 +10,11 @@ import Firebase
 
 class DataManager: ObservableObject {
     @Published var finalGoals: [FinalGoal] = []
+    @Published var subGoals: [SubGoal] = []
     
     init() {
         fetchGoals()
+        fetchTasks()
     }
     
     func fetchGoals() {
@@ -44,8 +46,43 @@ class DataManager: ObservableObject {
                     let createdAt = createdAtTimestamp?.dateValue() ?? Date()
                     
                     
-                    let goal = FinalGoal(id: id, title: title, description: description, resolution: resolution, progress: progress, targetDate: targetDate, colorHex: colorHex, createdAt: createdAt, subGoals: [])
+                    let goal = FinalGoal(id: id, title: title, description: description, resolution: resolution, progress: progress, moment: 5, targetDate: targetDate, colorHex: colorHex, createdAt: createdAt, subGoals: [])
                     self.finalGoals.append(goal)
+                }
+            }
+        }
+    }
+    
+    func fetchTasks() {
+        
+        let db = Firestore.firestore()
+        let ref = db.collection("SubGoals")
+        ref.getDocuments { snapshot, error in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                return
+            }
+            
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    let data = document.data()
+                    
+                    let id = data["id"] as? String ?? ""
+                    let title = data["title"] as? String ?? ""
+                    let description = data["description"] as? String ?? ""
+                    let status = data["status"] as? Int ?? 0
+                    
+                    let targetDateTimestamp = data["targetDate"] as? Timestamp
+                    let targetDate = targetDateTimestamp?.dateValue() ?? Date()
+                    
+                    let createdAtTimestamp = data["createdAt"] as? Timestamp
+                    let createdAt = createdAtTimestamp?.dateValue() ?? Date()
+                    
+                    let priority = data["priority"] as? Int ?? 0
+                    
+                    
+                    let goal = SubGoal(id: id, title: title, description: description, status: status, targetDate: targetDate, createdAt: createdAt, priority: priority)
+                    self.subGoals.append(goal)
                 }
             }
         }
@@ -72,6 +109,31 @@ class DataManager: ObservableObject {
                 print(error.localizedDescription)
             } else {
                 print("골 생성완료!!")
+            }
+        }
+        
+    }
+    
+    func createTask(title: String, description: String, targetDate: Date, priority: Int) {
+        let db = Firestore.firestore()
+        let ref = db.collection("SubGoals").document()
+        
+        let createdAt = Date()
+        let newTask: [String: Any] = [
+                "id": ref.documentID,
+                "title": title,
+                "description": description,
+                "status": "아아아",
+                "targetDate": Timestamp(date: targetDate),
+                "createdAt": Timestamp(date: createdAt),
+                "priority": priority
+        ]
+        
+        ref.setData(newTask) { error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                print("테스크 생성완료!!")
             }
         }
         

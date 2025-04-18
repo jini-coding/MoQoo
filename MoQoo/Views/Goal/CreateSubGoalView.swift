@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct CreateSubGoalView: View {
+    
+    @EnvironmentObject var dataManager: DataManager
+    
     @State private var goalName: String = ""
     @State private var goalDetail: String = ""
-    @State private var period: String = ""
+    @State private var targetDate: Date = Date()
     
     @Environment(\.dismiss) var dismiss
     
@@ -26,7 +29,7 @@ struct CreateSubGoalView: View {
                 Button(action: {
                     dismiss()
                 }) {
-                    Image(systemName: "chevron.left") }
+                    Image("backIcon") }
             }
             
             Spacer().frame(height: 36)
@@ -36,7 +39,7 @@ struct CreateSubGoalView: View {
                 
                 InputSection(title: "목표 상세 설명", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, isMultiline: true)
                 
-                InputSection(title: "목표 기간", placeholder: "목표 기간을 설정해주세요", text: $period)
+                DatePickerSection(title: "목표일", targetDate: $targetDate)
                 
                 //목표 우선순위
                 PrioritySection(title: "우선도")
@@ -58,7 +61,8 @@ struct CreateSubGoalView: View {
     }
     
     func createGoal() {
-        print("골 생성")
+        dataManager.createTask(title: goalName, description: goalDetail, targetDate: targetDate, priority: 1)
+        print("테스크 생성")
     }
 }
 

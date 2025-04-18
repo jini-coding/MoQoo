@@ -24,7 +24,7 @@ struct CreateFinalGoalView: View {
                 Button(action: {
                     dismiss()
                 }) {
-                    Image(systemName: "chevron.left") }
+                    Image("backIcon") }
             }
             
             Circle()

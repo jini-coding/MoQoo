@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct TodoCell: View {
-    var title: String = "오토 레이아웃 이해하기"
-    var status: String = "진행 중" //012로할까...
-    var progress: Int = 25
-    //var endDate: String = ""
+    var title: String
+    var status: Int
+    var leftDay: Int
+    
+    var goalStatus: GoalStatus {
+        GoalStatus(rawValue: status) ?? .notStarted
+    }
     
     var body: some View {
         ZStack {
@@ -25,17 +28,17 @@ struct TodoCell: View {
                     
                     Spacer()
                     
-                    Text("D - 9")
+                    Text("D - \(leftDay)")
                         .font(.mq(.bold, size: 14))
                         .foregroundColor(Color(hex: "#F54646"))
                         .padding(.trailing, 10)
                     
-                    Text("\(status)")
+                    Text(goalStatus.label)
                         .font(.mq(.medium, size: 12))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 5)
-                        .background(Color.mqMintBg)
-                        .foregroundColor(Color.mqMintText)
+                        .background(goalStatus.bgColor)
+                        .foregroundColor(goalStatus.textColor)
                         .cornerRadius(6)
                         .padding(.trailing, 12)
                     

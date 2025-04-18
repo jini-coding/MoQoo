@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContentMainView: View {
+    @EnvironmentObject var dataManager: DataManager
+    
     
     var body: some View {
         VStack {
@@ -67,8 +69,8 @@ struct ContentMainView: View {
             
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    ForEach(0..<3, id: \.self) { _ in
-                        TodoCell()
+                    ForEach(dataManager.subGoals) { goal in
+                        TodoCell(title: goal.title, status: goal.status, leftDay: goal.priority)
                     }
                 }
                 .padding(.horizontal, 0)

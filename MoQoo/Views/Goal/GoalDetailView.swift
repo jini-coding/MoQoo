@@ -10,6 +10,7 @@ import SwiftUI
 struct GoalDetailView: View {
     var title: String
     
+    @EnvironmentObject var dataManager: DataManager
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -24,13 +25,23 @@ struct GoalDetailView: View {
                     Button(action: {
                         dismiss()
                     }) {
-                        Image(systemName: "chevron.left") }
+                        Image("backIcon") }
                 } trailing: {
-                    Button(action: {
-                        //
-                    }) {
-                        Image(systemName: "circle.fill")
+                    HStack {
+                        Button(action: {
+                            //추가
+                        }) {
+                            Image("addIcon")
+                        }
+                        
+                        Button(action: {
+                            //ㅇㅇ
+                        }) {
+                            Image("menuIcon")
+                        }
                     }
+                    
+                    
                 }
                 
                 Spacer().frame(height: 16)
@@ -58,7 +69,7 @@ struct GoalDetailView: View {
                     .foregroundColor(.mqGrayStatusText)
                     .multilineTextAlignment(.leading)
                     .lineSpacing(5)
-                    .frame(width: 202)
+                    .frame(width: 202, alignment: .leading)
                     .padding(.bottom, 16)
                 
                 HStack {
@@ -71,9 +82,13 @@ struct GoalDetailView: View {
                         .foregroundColor(.mqGrayStatusText)
                 }
             }
+            .padding(.leading, 24)
             
-            CircleBar(progress: 25)
+            Spacer()
+            
+            DetailCircleBar(progress: 25)
                 .frame(width: 96, height: 96)
+                .padding(.trailing, 24)
         }
         .padding(.bottom, 16)
     }
@@ -83,10 +98,20 @@ struct GoalDetailView: View {
             Color(hex: "#F5F2F8").ignoresSafeArea()
             
             VStack {
-                Text("서브 목표들이 여기 들어가요.")
-                    .font(.mq(.medium, size: 14))
-                    .foregroundColor(.gray)
+                Spacer().frame(height: 30)
+                
+                ScrollView {
+                    LazyVStack(spacing: 0) {
+                        ForEach(dataManager.subGoals) { goal in
+                            SubGoalListCell(title: goal.title, detail: goal.description, status: goal.status, leftDay: goal.status)
+                        }
+                    }
+                    .padding(.horizontal, 0)
+                }
+                .scrollIndicators(.hidden)
+                .padding(.top, 6)
             }
+            
         }
     }
 }

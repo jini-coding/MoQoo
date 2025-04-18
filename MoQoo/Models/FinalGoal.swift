@@ -13,8 +13,10 @@ struct FinalGoal: Identifiable, Codable {
     var description: String
     var resolution: String //다짐
     var progress: Int //진행률
+    var moment: Int //모먼트
     var targetDate: Date //목표마감일
     var colorHex: String
     var createdAt: Date
+    
     var subGoals: [SubGoal]
 }
