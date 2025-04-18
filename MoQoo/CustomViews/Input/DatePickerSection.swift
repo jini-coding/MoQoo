@@ -19,11 +19,11 @@ struct DatePickerSection: View {
             
             DatePicker("날짜 선택", selection: $targetDate, displayedComponents: .date)
                 .labelsHidden()
-                .padding()
-                .background(Color.mqGrayPlaceholder.opacity(0.2))
+                .padding(.horizontal, 16)
+                .background(Color.mqGraybg)
                 .cornerRadius(10)
             
-            // 스타일 수정하기 (배경색)
+            // 스타일 수정하기
         }
     }
 }

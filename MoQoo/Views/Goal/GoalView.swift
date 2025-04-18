@@ -52,51 +52,24 @@ struct GoalView: View {
                     ScrollView {
                         LazyVStack(spacing: 0) {
                             ForEach(dataManager.finalGoals) { goal in
+                                NavigationLink(
+                                        destination: GoalDetailView(title: goal.title)
+                                ) {
                                     FinalGoalListCell(
                                         title: goal.title,
                                         detail: goal.resolution,
-                                        status: "진행 중", // 아직 상태(status)를 따로 저장하지 않았다면 빈 문자열로
+                                        status: "진행 중", // 상태 로직 생기면 수정
                                         progress: goal.progress
                                     )
+                                }
+                                .buttonStyle(PlainButtonStyle())
                             }
-//                            ForEach(0..<1, id: \.self) { _ in
-//                                FinalGoalListCell(title: "Figma 정복하기", detail: "UI/UX 공부를 위해서...", status: "진행 중", progress: 25)
-//                                FinalGoalListCell(title: "Swift 정복하기", detail: "iOS 공부를 위해서...", status: "진행 중", progress: 79)
-//                                FinalGoalListCell(title: "JLPT N3 따기", detail: "일본어도 배우고 싶어!", status: "시작 전", progress: 0)
-//                                FinalGoalListCell(title: "Figma 정복하기", detail: "UI/UX 공부를 위해서...", status: "진행 중", progress: 25)
-//                            }
-//                            .onMove(perform: move)
                         }
                         .padding(.horizontal, 0)
                     }
                     .scrollIndicators(.hidden)
                     .padding(.top, 6)
                     .padding(.horizontal, 16)
-//                    List {
-//                        ForEach(0..<1, id: \.self) { _ in
-//                            Section {
-//                                FinalGoalListCell(title: "Figma 정복하기", detail: "UI/UX 공부를 위해서...", status: "진행 중", progress: 25)
-//                            }
-//                            Section {
-//                                FinalGoalListCell(title: "Swift 정복하기", detail: "iOS 공부를 위해서...", status: "진행 중", progress: 79)
-//                            }
-//                            Section {
-//                                FinalGoalListCell(title: "JLPT N3 따기", detail: "일본어도 배우고 싶어!", status: "시작 전", progress: 0)
-//                            }
-//                            Section {
-//                                FinalGoalListCell(title: "Figma 정복하기", detail: "UI/UX 공부를 위해서...", status: "진행 중", progress: 25)
-//                            }
-//
-//                        }
-//                        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-//                        .listRowSeparator(.hidden)
-//                    }
-//                    .scrollContentBackground(.hidden)
-//                    //.environment(\.editMode, .constant(self.df))
-//                    .padding(.horizontal, 0)
-//                    .padding(.top, 6)
-//                    //.frame(width: 329, height: 368)
-                    
                 }
                 
             }
