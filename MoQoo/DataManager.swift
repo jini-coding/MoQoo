@@ -35,7 +35,7 @@ class DataManager: ObservableObject {
                     let title = data["title"] as? String ?? ""
                     let description = data["description"] as? String ?? ""
                     let resolution = data["resolution"] as? String ?? ""
-                    let progress = data["progresss"] as? Int ?? 0
+                    let progress = data["progress"] as? Int ?? 0
                     
                     let targetDateTimestamp = data["targetDate"] as? Timestamp
                     let targetDate = targetDateTimestamp?.dateValue() ?? Date()

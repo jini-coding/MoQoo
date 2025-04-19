@@ -9,14 +9,17 @@ import SwiftUI
 
 struct GoalView: View {
     @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var goalViewModel: GoalViewModel
     
     var body: some View {
         
         NavigationStack {
-            ZStack {
+            ZStack(alignment: .bottomTrailing) {
                 Color.mqLightMain.ignoresSafeArea()
                 
                 VStack {
+                    Spacer().frame(height: 10)
+                    
                     HStack {
                         Text("나의 목표")
                             .font(.mq(.bold, size: 28))
@@ -25,10 +28,10 @@ struct GoalView: View {
                         
                         Spacer()
                         
-                        NavigationLink(destination: CreateFinalGoalView()) {
-                            Image("plusIcon")
-                        }
-                        .padding(.trailing, 16)
+//                        NavigationLink(destination: CreateFinalGoalView()) {
+//                            Image("plusIcon")
+//                        }
+//                        .padding(.trailing, 16)
                     }
                     
                     Spacer().frame(height: 10)
@@ -57,9 +60,11 @@ struct GoalView: View {
                                 ) {
                                     FinalGoalListCell(
                                         title: goal.title,
-                                        detail: goal.resolution,
-                                        status: "진행 중", // 상태 로직 생기면 수정
-                                        progress: goal.progress
+                                        detail: goal.description,
+                                        status: 1, // 상태 로직 생기면 수정
+                                        progress: goal.progress,
+                                        colorHex: goal.colorHex,
+                                        targetDate: goal.targetDate
                                     )
                                 }
                                 .buttonStyle(PlainButtonStyle())
@@ -71,6 +76,36 @@ struct GoalView: View {
                     .padding(.top, 6)
                     .padding(.horizontal, 16)
                 }
+                
+                NavigationLink(destination: CreateFinalGoalView()) {
+                    ZStack {
+                        Circle()
+                            .fill(Color.mqMain)
+                            .frame(width: 58, height: 58)
+                        
+                        Image("plusIcon_white")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                    }
+                }
+                .padding(.bottom, 10)
+                .padding(.trailing, 20)
+                
+//                Button(action: {
+//                    print("Floating button tapped")
+//                }) {
+//                    ZStack {
+//                        Circle()
+//                            .fill(Color.mqMain)
+//                            .frame(width: 58, height: 58)
+//                        
+//                        Image("plusIcon_white")
+//                            .resizable()
+//                            .frame(width: 40, height: 40)
+//                    }
+//                }
+//                .padding(.bottom, 10)
+//                .padding(.trailing, 20)
                 
             }
         }
@@ -85,4 +120,5 @@ struct GoalView: View {
 #Preview {
     GoalView()
         .environmentObject(DataManager())
+        .environmentObject(GoalViewModel())
 }

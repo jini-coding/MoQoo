@@ -23,6 +23,7 @@ struct MoQooApp: App {
   // register app delegate for Firebase setup
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var dataManager = DataManager()
+    @StateObject var goalViewModel = GoalViewModel()
 
 
   var body: some Scene {
@@ -31,6 +32,7 @@ struct MoQooApp: App {
           //TabBarView()
           LoginView()
               .environmentObject(dataManager)
+              .environmentObject(goalViewModel)
       }
     }
   }

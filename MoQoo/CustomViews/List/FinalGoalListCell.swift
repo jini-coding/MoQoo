@@ -8,11 +8,19 @@
 import SwiftUI
 
 struct FinalGoalListCell: View {
+    @EnvironmentObject var goalViewModel: GoalViewModel
+
     var title: String
     var detail: String
-    var status: String
+    var status: Int
     var progress: Int
+    var colorHex: String
+    var targetDate: Date
     //var endDate: String = ""
+    
+    var goalStatus: GoalStatus {
+        GoalStatus(rawValue: status) ?? .notStarted
+    }
     
     var body: some View {
         ZStack {
@@ -20,38 +28,52 @@ struct FinalGoalListCell: View {
             
             VStack {
                 HStack {
-                    Circle()
-                        .frame(width: 16, height: 16)
-                        .foregroundColor(.mqGrayPlaceholder)
-                        .padding(.leading, 24)
-                    
+                    ZStack {
+                        Circle()
+                            .frame(width: 16, height: 16)
+                            .foregroundColor(Color(hex: "\(colorHex)"))
+                            .padding(.leading, 24)
+                        
+                        Circle()
+                            .frame(width: 5, height: 5)
+                            .foregroundColor(.white)
+                            .padding(.leading, 24)
+                            .offset(x: 2, y: 2)
+                    }
+
                     Text("\(title)")
                         .font(.mq(.medium, size: 16))
                         .padding(.leading, 4)
                     
                     Spacer()
                     
-                    Text("\(status)")
-                        .font(.mq(.medium, size: 12))
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 5)
-                        .background(Color.mqMintBg)
-                        .foregroundColor(Color.mqMintText)
-                        .cornerRadius(6)
+                    Text("⏳ 목표일까지 \(goalViewModel.calculateDday(from: targetDate))")
+                        .font(.mq(.medium, size: 14))
+                        .foregroundColor(.mqGrayStatusText)
                         .padding(.trailing, 25)
                         .offset(x: 0, y: -2)
+                    
+//                    Text("\(goalStatus.label)")
+//                        .font(.mq(.medium, size: 12))
+//                        .padding(.horizontal, 8)
+//                        .padding(.vertical, 5)
+//                        .background(goalStatus.bgColor)
+//                        .foregroundColor(goalStatus.textColor)
+//                        .cornerRadius(6)
+//                        .padding(.trailing, 25)
+//                        .offset(x: 0, y: -2)
                 }
                 
                 Spacer().frame(height: 8)
                 
-                HStack {
-                    Text("\(detail)")
-                        .font(.mq(.medium, size: 14))
-                        .foregroundColor(.mqGrayStatusText)
-                        .padding(.leading, 24)
-                    
-                    Spacer()
-                }
+//                HStack {
+//                    Text("\(detail)")
+//                        .font(.mq(.medium, size: 14))
+//                        .foregroundColor(.mqGrayStatusText)
+//                        .padding(.leading, 24)
+//                    
+//                    Spacer()
+//                }
                 
                 Spacer().frame(height: 12)
                 
@@ -64,21 +86,26 @@ struct FinalGoalListCell: View {
                     //퍼센트
                     Text("\(progress)%")
                         .font(.mq(.medium, size: 14))
-                        .foregroundColor(.mqMintText)
-                        .frame(width: 30)
+                        .foregroundColor(.mqGrayStatusText)
+                        .frame(width: 34)
                         .offset(x: 0, y: -3)
                         .padding(.trailing, 22)
+                    
+                    //모먼트(시간되면 기록이랑 같이 추가)
                 }
             }
             
         }
-        .frame(height: 111)
+        //.frame(height: 111)
+        .frame(height: 90)
         .cornerRadius(12)
-        .padding(.bottom, 12)
+        .padding(.bottom, 14)
         .padding(.horizontal, 16)
     }
 }
 
 #Preview {
-    RecordView()
+    GoalView()
+        .environmentObject(DataManager())
+        .environmentObject(GoalViewModel())
 }

@@ -122,7 +122,7 @@ struct GoalDetailView: View {
                                                 status: goal.status,
                                                 leftDay: goal.status)
                             }
-                            
+                            .buttonStyle(PlainButtonStyle())
                         }
                     }
                     .padding(.horizontal, 0)
