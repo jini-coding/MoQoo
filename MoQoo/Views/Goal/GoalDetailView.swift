@@ -14,7 +14,13 @@ struct GoalDetailView: View {
     var goal: FinalGoal
     
     @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var goalViewModel: GoalViewModel
     @Environment(\.dismiss) var dismiss
+    
+    @State private var isShowingCreateSubGoalView = false
+    @State private var isShowingCreateFinalGoalView = false
+    @State private var isPresentingSubGoalSheet = false
+    @State private var navigateToSubGoal = false
     
     var body: some View {
         ZStack {
@@ -29,27 +35,55 @@ struct GoalDetailView: View {
                         dismiss()
                     }) {
                         Image("backIcon") }
-                } trailing: {
+                } trailing: { //하..... 왜 안되지........
                     HStack {
+                        
+//                        NavigationLink(destination: CreateFinalGoalView()) {
+//                            ZStack {
+//                                Circle()
+//                                    .fill(Color.mqMain)
+//                                    .frame(width: 58, height: 58)
+//                                
+//                                Image("plusIcon_white")
+//                                    .resizable()
+//                                    .frame(width: 40, height: 40)
+//                            }
+//                        }
+
+//                        Button(action: {
+//                            print("pressed")
+//                        }) {
+//                            Image("addIcon")
+//                        }
                         Button(action: {
-                            //추가
+                            isPresentingSubGoalSheet = true
                         }) {
                             Image("addIcon")
                         }
-                        
-                        NavigationLink(destination:
-                                        EditFinalGoalView(goalId: goalId, goalName: goal.title, goalDetail: goal.description, targetDate: goal.targetDate)
-                                       //EditFinalGoalView(goalId: goalId)
-                                       
-                        ) {
-                            Image("menuIcon")
+                        .sheet(isPresented: $isPresentingSubGoalSheet) {
+                            CreateSubGoalView(finalGoalId: goalId)
+                                .presentationDetents([.fraction(0.7)])
+                                .presentationDragIndicator(.visible)
                         }
+//                        NavigationLink(destination: CreateSubGoalView(finalGoalId: goalId)) {
+//                            Image("addIcon")
+//                        }
+//                        .buttonStyle(PlainButtonStyle())
                         
-//                        Button(action: {
-//                            dataManager.deleteFinalGoal(goalId: goalId)
-//                        }) {
+//                        NavigationLink(destination:
+//                                        EditFinalGoalView(goalId: goalId, goalName: goal.title, goalDetail: goal.description, targetDate: goal.targetDate)
+//                                       //EditFinalGoalView(goalId: goalId)
+//                                       
+//                        ) {
 //                            Image("menuIcon")
 //                        }
+                        
+                        Button(action: {
+                            print("pressed")
+                            dataManager.deleteFinalGoal(goalId: goalId)
+                        }) {
+                            Image("menuIcon")
+                        }
                     }
                     
                     
@@ -67,6 +101,9 @@ struct GoalDetailView: View {
             
         }
         .navigationBarHidden(true)
+        .onAppear {
+            dataManager.fetchSubGoals(for: goalId)
+        }
     }
     
     var detailview: some View {
@@ -113,7 +150,9 @@ struct GoalDetailView: View {
                 
                 ScrollView {
                     LazyVStack(spacing: 0) {
-                        ForEach(dataManager.subGoals) { goal in
+                        let subGoalsForGoal = dataManager.subGoalsDict[goalId] ?? []
+                        
+                        ForEach(subGoalsForGoal) { goal in
                             NavigationLink(
                                 destination: EditSubGoalView(taskId: goal.id!, goalName: goal.title, goalDetail: goal.description, targetDate: goal.targetDate)
                             ) {
@@ -125,7 +164,20 @@ struct GoalDetailView: View {
                             .buttonStyle(PlainButtonStyle())
                         }
                     }
-                    .padding(.horizontal, 0)
+//                    LazyVStack(spacing: 0) {
+//                        ForEach(dataManager.subGoals) { goal in
+//                            NavigationLink(
+//                                destination: EditSubGoalView(taskId: goal.id!, goalName: goal.title, goalDetail: goal.description, targetDate: goal.targetDate)
+//                            ) {
+//                                SubGoalListCell(title: goal.title,
+//                                                detail: goal.description,
+//                                                status: goal.status,
+//                                                leftDay: goal.status)
+//                            }
+//                            .buttonStyle(PlainButtonStyle())
+//                        }
+//                    }
+//                    .padding(.horizontal, 0)
                 }
                 .scrollIndicators(.hidden)
                 .padding(.top, 6)

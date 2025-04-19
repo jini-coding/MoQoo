@@ -12,6 +12,7 @@ struct InputSection: View {
     var placeholder: String
     @Binding var text: String
     @Binding var textLength: Int
+    var lengthLimit: Int
     var isMultiline: Bool = false
     
     var body: some View {
@@ -23,16 +24,16 @@ struct InputSection: View {
                 InputTextEditor(placeholder: placeholder, text: $text)
                     .onChange(of: text) { newValue in
                         textLength = newValue.count
-                        if newValue.count > 14 {
-                            text = String(newValue.prefix(14))
+                        if newValue.count > lengthLimit {
+                            text = String(newValue.prefix(lengthLimit))
                         }
                     }
             } else {
                 InputTextField(placeholder: placeholder, text: $text)
                     .onChange(of: text) { newValue in
                         textLength = newValue.count
-                        if newValue.count > 14 {
-                            text = String(newValue.prefix(14))
+                        if newValue.count > lengthLimit {
+                            text = String(newValue.prefix(lengthLimit))
                         }
                     }
             }
@@ -40,7 +41,7 @@ struct InputSection: View {
             HStack {
                 Spacer()
                 
-                Text("\(textLength)/14")
+                Text("\(textLength)/\(lengthLimit)")
                     .font(.mq(.medium, size: 14))
                     .foregroundColor(.mqGraytext)
                     .padding(.trailing, 24)

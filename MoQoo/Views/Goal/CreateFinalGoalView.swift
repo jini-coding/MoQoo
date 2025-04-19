@@ -13,10 +13,12 @@ struct CreateFinalGoalView: View {
     
     @State private var goalName: String = ""
     @State private var goalDetail: String = ""
+    @State private var goalResolution: String = ""
     @State private var targetDate: Date = Date()
     
     @State private var goalNameLength: Int = 0
     @State private var goalDetailLength: Int = 0
+    @State private var resolutionLength: Int = 0
     
     var body: some View {
         VStack {
@@ -30,18 +32,18 @@ struct CreateFinalGoalView: View {
                     Image("backIcon") }
             }
             
-            Circle()
-                .frame(width: 84, height: 84)
-                .foregroundColor(.mqGrayPlaceholder)
+            Spacer().frame(height: 24)
             
-            Spacer().frame(height: 20)
-            
-            VStack(spacing: 28) {
-                InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName, textLength: $goalNameLength)
+            VStack(spacing: 2) {
+                InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName, textLength: $goalNameLength, lengthLimit: 14)
                 
-                InputSection(title: "상세 설명 및 다짐", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, textLength: $goalDetailLength, isMultiline: true)
+                InputSection(title: "상세 설명", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, textLength: $goalDetailLength, lengthLimit: 25)
+                
+                InputSection(title: "나의 다짐", placeholder: "목표에 임하는 나의 다짐을 입력해주세요", text: $goalResolution, textLength: $resolutionLength, lengthLimit: 25)
                 
                 DatePickerSection(title: "목표일", targetDate: $targetDate)
+                
+                DatePickerSection(title: "색상", targetDate: $targetDate)
             }
             
             Spacer()

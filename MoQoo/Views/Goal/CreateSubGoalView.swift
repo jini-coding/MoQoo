@@ -10,6 +10,7 @@ import SwiftUI
 struct CreateSubGoalView: View {
     
     @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var goalViewModel: GoalViewModel
     
     @State private var goalName: String = ""
     @State private var goalDetail: String = ""
@@ -18,6 +19,8 @@ struct CreateSubGoalView: View {
     @State private var goalNameLength: Int = 0
     @State private var goalDetailLength: Int = 0
     
+    let finalGoalId: String
+    
     @Environment(\.dismiss) var dismiss
     
 //    @State private var selectedPriority = "중"
@@ -25,27 +28,27 @@ struct CreateSubGoalView: View {
     
     var body: some View {
         VStack {
-            NavigationBar {
-                Text("서브 목표 생성")
-                    .font(.mq(.semibold, size: 18))
-            } leading: {
-                Button(action: {
-                    dismiss()
-                }) {
-                    Image("backIcon") }
-            }
+//            NavigationBar {
+//                Text("서브 목표 생성")
+//                    .font(.mq(.semibold, size: 18))
+//            } leading: {
+//                Button(action: {
+//                    dismiss()
+//                }) {
+//                    Image("backIcon") }
+//            }
             
             Spacer().frame(height: 36)
             
             VStack(spacing: 28) {
-                InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName, textLength: $goalNameLength)
+                InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName, textLength: $goalNameLength, lengthLimit: 14)
                 
-                InputSection(title: "목표 상세 설명", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, textLength: $goalDetailLength, isMultiline: true)
+                InputSection(title: "목표 상세 설명", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, textLength: $goalDetailLength, lengthLimit: 100, isMultiline: true)
                 
                 DatePickerSection(title: "목표일", targetDate: $targetDate)
                 
                 //목표 우선순위
-                PrioritySection(title: "우선도")
+                //PrioritySection(title: "우선도")
 
             }
             
@@ -60,11 +63,14 @@ struct CreateSubGoalView: View {
         }
         .navigationBarHidden(true)
         //.navigationTitle("서브 목표 생성")
+        .onAppear {
+            print("[LOG] CreateSubGoalView appeared!")
+        }
         
     }
     
     func createGoal() {
-        dataManager.createTask(title: goalName, description: goalDetail, targetDate: targetDate, priority: 1)
+        dataManager.createTask(finalGoalId: finalGoalId, title: goalName, description: goalDetail, targetDate: targetDate, priority: 1)
         print("테스크 생성")
     }
 }

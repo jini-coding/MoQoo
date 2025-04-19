@@ -10,6 +10,7 @@ import FirebaseFirestore
 
 struct SubGoal: Identifiable, Codable {
     @DocumentID var id: String?
+    var finalGoalId: String //최종목표와연결
     var title: String //이름
     var description: String //상세정보
     var status: Int //진행상태

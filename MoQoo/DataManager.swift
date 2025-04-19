@@ -11,6 +11,7 @@ import Firebase
 class DataManager: ObservableObject {
     @Published var finalGoals: [FinalGoal] = []
     @Published var subGoals: [SubGoal] = []
+    @Published var subGoalsDict: [String: [SubGoal]] = [:]
     
     init() {
         fetchGoals()
@@ -21,6 +22,9 @@ class DataManager: ObservableObject {
         
         let db = Firestore.firestore()
         let ref = db.collection("FinalGoals")
+        
+        finalGoals.removeAll()
+        
         ref.getDocuments { snapshot, error in
             guard error == nil else {
                 print(error!.localizedDescription)
@@ -53,8 +57,44 @@ class DataManager: ObservableObject {
         }
     }
     
+//    func fetchTasks() {
+//        //self.subGoals.removeAll()
+//        
+//        let db = Firestore.firestore()
+//        let ref = db.collection("SubGoals")
+//        ref.getDocuments { snapshot, error in
+//            guard error == nil else {
+//                print(error!.localizedDescription)
+//                return
+//            }
+//            
+//            if let snapshot = snapshot {
+//                for document in snapshot.documents {
+//                    let data = document.data()
+//                    
+//                    let id = data["id"] as? String ?? ""
+//                    let finalGoalId = data["finalGoalId"] as? String ?? ""
+//                    let title = data["title"] as? String ?? ""
+//                    let description = data["description"] as? String ?? ""
+//                    let status = data["status"] as? Int ?? 0
+//                    
+//                    let targetDateTimestamp = data["targetDate"] as? Timestamp
+//                    let targetDate = targetDateTimestamp?.dateValue() ?? Date()
+//                    
+//                    let createdAtTimestamp = data["createdAt"] as? Timestamp
+//                    let createdAt = createdAtTimestamp?.dateValue() ?? Date()
+//                    
+//                    let priority = data["priority"] as? Int ?? 0
+//                    
+//                    
+//                    let goal = SubGoal(id: id, finalGoalId: finalGoalId, title: title, description: description, status: status, targetDate: targetDate, createdAt: createdAt, priority: priority)
+//                    self.subGoals.append(goal)
+//                }
+//            }
+//        }
+//    }
+    
     func fetchTasks() {
-        
         let db = Firestore.firestore()
         let ref = db.collection("SubGoals")
         ref.getDocuments { snapshot, error in
@@ -64,24 +104,62 @@ class DataManager: ObservableObject {
             }
             
             if let snapshot = snapshot {
+                var grouped: [String: [SubGoal]] = [:]
+                
                 for document in snapshot.documents {
                     let data = document.data()
                     
                     let id = data["id"] as? String ?? ""
+                    let finalGoalId = data["finalGoalId"] as? String ?? ""
                     let title = data["title"] as? String ?? ""
                     let description = data["description"] as? String ?? ""
                     let status = data["status"] as? Int ?? 0
-                    
-                    let targetDateTimestamp = data["targetDate"] as? Timestamp
-                    let targetDate = targetDateTimestamp?.dateValue() ?? Date()
-                    
-                    let createdAtTimestamp = data["createdAt"] as? Timestamp
-                    let createdAt = createdAtTimestamp?.dateValue() ?? Date()
-                    
+                    let targetDate = (data["targetDate"] as? Timestamp)?.dateValue() ?? Date()
+                    let createdAt = (data["createdAt"] as? Timestamp)?.dateValue() ?? Date()
                     let priority = data["priority"] as? Int ?? 0
                     
+                    let goal = SubGoal(id: id, finalGoalId: finalGoalId, title: title, description: description, status: status, targetDate: targetDate, createdAt: createdAt, priority: priority)
                     
-                    let goal = SubGoal(id: id, title: title, description: description, status: status, targetDate: targetDate, createdAt: createdAt, priority: priority)
+                    grouped[finalGoalId, default: []].append(goal)
+                }
+                
+                DispatchQueue.main.async {
+                    self.subGoalsDict = grouped
+                }
+            }
+        }
+    }
+    
+    func fetchSubGoals(for goalId: String) {
+        subGoals.removeAll()
+
+        let db = Firestore.firestore()
+        let ref = db.collection("SubGoals").whereField("finalGoalId", isEqualTo: goalId)
+        ref.getDocuments { snapshot, error in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                return
+            }
+
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    let data = document.data()
+
+                    let id = data["id"] as? String ?? ""
+                    let finalGoalId = data["finalGoalId"] as? String ?? ""
+                    let title = data["title"] as? String ?? ""
+                    let description = data["description"] as? String ?? ""
+                    let status = data["status"] as? Int ?? 0
+
+                    let targetDateTimestamp = data["targetDate"] as? Timestamp
+                    let targetDate = targetDateTimestamp?.dateValue() ?? Date()
+
+                    let createdAtTimestamp = data["createdAt"] as? Timestamp
+                    let createdAt = createdAtTimestamp?.dateValue() ?? Date()
+
+                    let priority = data["priority"] as? Int ?? 0
+
+                    let goal = SubGoal(id: id, finalGoalId: finalGoalId, title: title, description: description, status: status, targetDate: targetDate, createdAt: createdAt, priority: priority)
                     self.subGoals.append(goal)
                 }
             }
@@ -116,18 +194,22 @@ class DataManager: ObservableObject {
                 print(error.localizedDescription)
             } else {
                 print("골 생성완료!!")
+                DispatchQueue.main.async {
+                    self.fetchGoals()
+                }
             }
         }
         
     }
     
-    func createTask(title: String, description: String, targetDate: Date, priority: Int) {
+    func createTask(finalGoalId: String, title: String, description: String, targetDate: Date, priority: Int) {
         let db = Firestore.firestore()
         let ref = db.collection("SubGoals").document()
         
         let createdAt = Date()
         let newTask: [String: Any] = [
                 "id": ref.documentID,
+                "finalGoalId": finalGoalId,
                 "title": title,
                 "description": description,
                 "status": "아아아",
@@ -141,6 +223,9 @@ class DataManager: ObservableObject {
                 print(error.localizedDescription)
             } else {
                 print("테스크 생성완료!!")
+                DispatchQueue.main.async {
+                    self.fetchTasks()
+                }
             }
         }
         
@@ -165,6 +250,9 @@ class DataManager: ObservableObject {
                 print(error.localizedDescription)
             } else {
                 print("골 수정 완료!!")
+                DispatchQueue.main.async {
+                    self.fetchGoals()
+                }
             }
         }
     }
@@ -186,21 +274,55 @@ class DataManager: ObservableObject {
                 print(error.localizedDescription)
             } else {
                 print("테스크 수정 완료!!")
+                DispatchQueue.main.async {
+                    self.fetchTasks()
+                }
             }
         }
     }
     
+//    func deleteFinalGoal(goalId: String) {
+//        let db = Firestore.firestore()
+//        let ref = db.collection("FinalGoals").document(goalId).delete() { error in
+//            if let error = error {
+//                print(error.localizedDescription)
+//            } else {
+//                print("골 삭제 완료!!")
+//            }
+//        }
+//
+//    }
     func deleteFinalGoal(goalId: String) {
         let db = Firestore.firestore()
-        let ref = db.collection("FinalGoals").document(goalId).delete() { error in
+
+        let subGoalRef = db.collection("SubGoals").whereField("finalGoalId", isEqualTo: goalId)
+        subGoalRef.getDocuments { snapshot, error in
             if let error = error {
-                print(error.localizedDescription)
-            } else {
-                print("골 삭제 완료!!")
+                print("서브골 불러오기 실패: \(error.localizedDescription)")
+                return
+            }
+
+            let batch = db.batch()
+            snapshot?.documents.forEach { document in
+                batch.deleteDocument(document.reference)
+            }
+
+            let finalGoalRef = db.collection("FinalGoals").document(goalId)
+            batch.deleteDocument(finalGoalRef)
+            
+            batch.commit { error in
+                if let error = error {
+                    print("삭제 실패: \(error.localizedDescription)")
+                } else {
+                    print("FinalGoal과 관련된 모든 SubGoal 삭제 완료")
+                    
+                    DispatchQueue.main.async {
+                    }
+                }
             }
         }
-
     }
+
     
     func deleteTask(taskId: String) {
         let db = Firestore.firestore()

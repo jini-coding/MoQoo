@@ -29,8 +29,7 @@ struct InputTextEditor: View {
                 .background(Color.clear)
                 .cornerRadius(8)
                 .scrollContentBackground(.hidden) //editor 영역 배경색 없애기
-                //.opacity(text.isEmpty ? 0.8 : 1)
-                .frame(height: 130)
+                .frame(height: 96)
         }
         .background(Color.mqGraybg)
         .cornerRadius(8)

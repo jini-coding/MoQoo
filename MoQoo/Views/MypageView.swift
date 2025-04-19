@@ -32,7 +32,7 @@ struct MypageView: View {
                         .cornerRadius(10)
                 }
                 
-                NavigationLink(destination: CreateSubGoalView()) {
+                NavigationLink(destination: CreateSubGoalView(finalGoalId: "")) {
                     Text("서브 목표 생성하기")
                         .foregroundColor(.white)
                         .padding()
