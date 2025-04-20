@@ -31,7 +31,7 @@ struct DeleteModalView: View {
                 
                 Spacer().frame(height: 20)
                 
-                Text("하위에 생성된 서브 목표들도 모두 삭제돼요.")
+                Text("하위에 생성된 서브 목표들도 모두 삭제돼요")
                     .font(.mq(.medium, size: 16))
                     .foregroundColor(.black)
                     .padding(.horizontal, 20) //여기 왜 이런걸까..?

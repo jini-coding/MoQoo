@@ -11,8 +11,23 @@ struct CompleteModalView: View {
     
     @Environment(\.dismiss) private var dismiss
     
+    var task: Int
+    
     var body: some View {
-        completeEditFinalGoalView
+        ZStack {
+            Color.black.opacity(0.4)
+                .ignoresSafeArea()
+            
+            switch task {
+            case 1: completeCreatFinalGoalView
+            case 3: completeEditFinalGoalView
+            default: completeEditFinalGoalView //임시
+                
+            }
+        }
+        
+        
+        
     }
     
     var completeCreatFinalGoalView: some View {
@@ -20,46 +35,47 @@ struct CompleteModalView: View {
             Color.white.ignoresSafeArea()
             
             VStack {
+                Spacer().frame(height: 20)
+                
                 HStack {
                     ZStack {
                         Circle()
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(Color(hex: "#8A8A8A"))
-                            .padding(.leading, 24)
+                            .frame(width: 18, height: 18)
+                            .foregroundColor(Color(hex: "#81D278"))
                         
                         Circle()
-                            .frame(width: 7, height: 7)
+                            .frame(width: 5.25, height: 5.25)
                             .foregroundColor(.white)
-                            .padding(.leading, 24)
-                            .offset(x: 4, y: 4)
+                            .offset(x: 2.5, y: 2.5)
                     }
                     
                     Spacer().frame(width: 8)
                     
                     Text("Figma 정복하기")
-                        .font(.mq(.bold, size: 24))
+                        .font(.mq(.bold, size: 20))
                         .foregroundColor(.black)
                 }
+                .padding(.bottom, 2)
                 //가운데정렬
                 
-                Spacer().frame(height: 18)
-                
-                Text("목표가 만들어졌어요!")
-                    .font(.mq(.bold, size: 20))
+                Text("목표가 만들어졌어요")
+                    .font(.mq(.semibold, size: 20))
                     .foregroundColor(.black)
                 
                 Spacer().frame(height: 20)
                 
                 Text("이제 한 걸음씩 함께 나아가봐요")
-                    .font(.mq(.medium, size: 14))
+                    .font(.mq(.medium, size: 16))
                     .foregroundColor(.black)
+                    .padding(.horizontal, 20) //여기 왜 이런걸까..?
+                    .multilineTextAlignment(.leading)
                 
-                Spacer().frame(height: 40)
+                Spacer().frame(height: 20)
                 
                 ModalBottomButton(
                     label: "확인",
                     action: {
-                        
+                        dismiss()
                     }
                 )
                 
@@ -67,7 +83,7 @@ struct CompleteModalView: View {
             }
             
         }
-        .frame(height: 330)
+        .frame(height: 210)
         .cornerRadius(25)
         .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 0)
         .padding(.horizontal, 35)
@@ -132,6 +148,6 @@ struct CompleteModalView: View {
     }
 }
 
-//#Preview {
-//    CompleteModalView(isShowing: true)
-//}
+#Preview {
+    CompleteModalView(task: 1)
+}

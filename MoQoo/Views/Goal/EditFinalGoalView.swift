@@ -28,7 +28,7 @@ struct EditFinalGoalView: View {
             editview
             
             if showCompleteModal {
-                CompleteModalView()
+                CompleteModalView(task: 3)
             }
         }
 
