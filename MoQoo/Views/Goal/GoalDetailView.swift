@@ -21,88 +21,107 @@ struct GoalDetailView: View {
     @State private var isShowingCreateFinalGoalView = false
     @State private var isPresentingSubGoalSheet = false
     @State private var navigateToSubGoal = false
+    @State private var showMenuModal = false
+    @State private var showDeleteModal = false
+    @State private var showDeleteCompleteModal = false
+    @State private var navigateToEditFinalGoal = false
     
     var body: some View {
         ZStack {
-            Color.white.ignoresSafeArea()
-            
-            VStack {
-                NavigationBar {
-                    Text("\(title)")
-                        .font(.mq(.semibold, size: 18))
-                } leading: {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image("backIcon") }
-                } trailing: { //하..... 왜 안되지........
-                    HStack {
-                        
-//                        NavigationLink(destination: CreateFinalGoalView()) {
-//                            ZStack {
-//                                Circle()
-//                                    .fill(Color.mqMain)
-//                                    .frame(width: 58, height: 58)
-//                                
-//                                Image("plusIcon_white")
-//                                    .resizable()
-//                                    .frame(width: 40, height: 40)
-//                            }
-//                        }
-
-//                        Button(action: {
-//                            print("pressed")
-//                        }) {
-//                            Image("addIcon")
-//                        }
+            ZStack {
+                Color.white.ignoresSafeArea()
+                
+                VStack {
+                    NavigationBar {
+                        Text("\(title)")
+                            .font(.mq(.semibold, size: 18))
+                    } leading: {
                         Button(action: {
-                            isPresentingSubGoalSheet = true
+                            dismiss()
                         }) {
-                            Image("addIcon")
+                            Image("backIcon") }
+                    } trailing: {
+                        HStack {
+                            Button(action: {
+                                isPresentingSubGoalSheet = true
+                            }) {
+                                Image("addIcon")
+                            }
+                            .sheet(isPresented: $isPresentingSubGoalSheet) {
+                                CreateSubGoalView(finalGoalId: goalId)
+                                    .presentationDetents([.fraction(0.7)])
+                                    .presentationDragIndicator(.visible)
+                            }
+                            
+                            Button(action: {
+                                print("pressed")
+                                //dataManager.deleteFinalGoal(goalId: goalId)
+                                withAnimation {
+                                    showMenuModal.toggle()
+                                }
+                            }) {
+                                Image("menuIcon")
+                            }
                         }
-                        .sheet(isPresented: $isPresentingSubGoalSheet) {
-                            CreateSubGoalView(finalGoalId: goalId)
-                                .presentationDetents([.fraction(0.7)])
-                                .presentationDragIndicator(.visible)
-                        }
-//                        NavigationLink(destination: CreateSubGoalView(finalGoalId: goalId)) {
-//                            Image("addIcon")
-//                        }
-//                        .buttonStyle(PlainButtonStyle())
                         
-//                        NavigationLink(destination:
-//                                        EditFinalGoalView(goalId: goalId, goalName: goal.title, goalDetail: goal.description, targetDate: goal.targetDate)
-//                                       //EditFinalGoalView(goalId: goalId)
-//                                       
-//                        ) {
-//                            Image("menuIcon")
-//                        }
-                        
-                        Button(action: {
-                            print("pressed")
-                            dataManager.deleteFinalGoal(goalId: goalId)
-                        }) {
-                            Image("menuIcon")
-                        }
                     }
                     
+                    Spacer().frame(height: 16)
+                    
+                    detailview
+                        .frame(height: 150)
+                    
+                    subGoalview
                     
                 }
                 
-                Spacer().frame(height: 16)
-                
-                detailview
-                    .frame(height: 150)
-                
-                subGoalview
+            }
+            .navigationBarHidden(true)
+            .onAppear {
+                dataManager.fetchSubGoals(for: goalId)
             }
             
+            if showMenuModal {
+                MenuModalView(editButtonTapped: {
+                    withAnimation {
+                        showMenuModal = false
+                    }
+                    navigateToEditFinalGoal = true
+                }, deleteButtonTapped: {
+                    withAnimation {
+                        showMenuModal = false
+                        showDeleteModal = true
+                    }
+                })
+                    .offset(x: 120, y: -255)
+            }//사라질때도 부드럽게...
             
+            if showDeleteModal {
+                DeleteModalView(title: title,
+                                deleteButtonTapped: {
+                    withAnimation {
+                         showDeleteModal = false
+                         showDeleteCompleteModal = true
+                     }
+                    dataManager.deleteFinalGoal(goalId: goalId)
+                },
+                                cancelButtonTapped: {
+                    showDeleteModal = false
+                })
+            }
             
+            if showDeleteCompleteModal {
+                VStack {
+                    CompleteDeleteModalView()
+                }
+            }
         }
-        .navigationBarHidden(true)
-        .onAppear {
-            dataManager.fetchSubGoals(for: goalId)
+
+        NavigationLink(
+            destination: EditFinalGoalView(goalId: goalId, goalName: goal.title, goalDetail: goal.description, targetDate: goal.targetDate),
+            isActive: $navigateToEditFinalGoal
+        ) {
+            EmptyView()
         }
     }
     
@@ -185,6 +204,7 @@ struct GoalDetailView: View {
             
         }
     }
+    
 }
 
 //#Preview {

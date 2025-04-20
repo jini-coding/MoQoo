@@ -317,6 +317,7 @@ class DataManager: ObservableObject {
                     print("FinalGoal과 관련된 모든 SubGoal 삭제 완료")
                     
                     DispatchQueue.main.async {
+                        self.fetchGoals()
                     }
                 }
             }

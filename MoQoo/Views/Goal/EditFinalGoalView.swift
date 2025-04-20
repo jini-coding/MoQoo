@@ -18,10 +18,24 @@ struct EditFinalGoalView: View {
     
     @State private var goalNameLength: Int = 0
     @State private var goalDetailLength: Int = 0
+    @State private var showCompleteModal: Bool = false
     
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
+        
+        ZStack {
+            editview
+            
+            if showCompleteModal {
+                CompleteModalView()
+            }
+        }
+
+        
+    }
+    
+    var editview: some View {
         VStack {
             NavigationBar {
                 Text("목표 수정")
@@ -61,12 +75,15 @@ struct EditFinalGoalView: View {
             //dataManager.fetchGoalDetail(id: goalId) 오류...
         }
         //.navigationTitle("목표 수정")
-        
     }
     
     func editGoal() {
         print("골 수정")
+        withAnimation {
+            showCompleteModal = true
+        }
         dataManager.editFinalGoal(goalId: goalId, title: goalName, description: goalDetail, targetDate: targetDate)
+        print("골 수정완료!!!!---")
     }
     
     func formattedDate(_ date: Date) -> String {
@@ -76,6 +93,6 @@ struct EditFinalGoalView: View {
     }
 }
 
-//#Preview {
-//    EditFinalGoalView(goalId: 1, goalName: "", goalDetail: "", period: "")
-//}
+#Preview {
+    EditFinalGoalView(goalId: "", goalName: "", goalDetail: "", targetDate: Date())
+}
