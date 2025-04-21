@@ -19,18 +19,19 @@ struct DatePickerSection: View {
             
             DatePicker("날짜 선택", selection: $targetDate, displayedComponents: .date)
                 .labelsHidden()
-                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+                .frame(maxWidth: .infinity)
                 .background(Color.mqGraybg)
                 .cornerRadius(10)
+                .padding(.horizontal, 16)
             
             // 스타일 수정하기
         }
+        .padding(.bottom, 20)
     }
 }
 
 
 #Preview {
-    StatefulPreviewWrapper(Date()) { date in
-        DatePickerSection(title: "목표일", targetDate: date)
-    }
+    CreateFinalGoalView()
 }

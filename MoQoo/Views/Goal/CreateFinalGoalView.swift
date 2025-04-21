@@ -15,6 +15,7 @@ struct CreateFinalGoalView: View {
     @State private var goalDetail: String = ""
     @State private var goalResolution: String = ""
     @State private var targetDate: Date = Date()
+    @State private var colorHex: String = "FF0000"
     
     @State private var goalNameLength: Int = 0
     @State private var goalDetailLength: Int = 0
@@ -45,7 +46,7 @@ struct CreateFinalGoalView: View {
                     
                     DatePickerSection(title: "목표일", targetDate: $targetDate)
                     
-                    DatePickerSection(title: "색상", targetDate: $targetDate)
+                    ColorPickerSection(title: "색상", colorHex: $colorHex)
                 }
                 
                 Spacer()

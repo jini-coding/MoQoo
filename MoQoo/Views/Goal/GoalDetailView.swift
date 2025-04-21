@@ -220,7 +220,7 @@ struct GoalDetailView: View {
                         
                         ForEach(subGoalsForGoal) { goal in
                             NavigationLink(
-                                destination: EditSubGoalView(taskId: goal.id!, goalName: goal.title, goalDetail: goal.description, targetDate: goal.targetDate)
+                                destination: EditSubGoalView(finalGoalId: goalId, taskId: goal.id!, goalName: goal.title, goalDetail: goal.description, targetDate: goal.targetDate)
                             ) {
                                 SubGoalListCell(title: goal.title,
                                                 detail: goal.description,
@@ -230,20 +230,6 @@ struct GoalDetailView: View {
                             .buttonStyle(PlainButtonStyle())
                         }
                     }
-//                    LazyVStack(spacing: 0) {
-//                        ForEach(dataManager.subGoals) { goal in
-//                            NavigationLink(
-//                                destination: EditSubGoalView(taskId: goal.id!, goalName: goal.title, goalDetail: goal.description, targetDate: goal.targetDate)
-//                            ) {
-//                                SubGoalListCell(title: goal.title,
-//                                                detail: goal.description,
-//                                                status: goal.status,
-//                                                leftDay: goal.status)
-//                            }
-//                            .buttonStyle(PlainButtonStyle())
-//                        }
-//                    }
-//                    .padding(.horizontal, 0)
                 }
                 .scrollIndicators(.hidden)
                 .padding(.top, 6)

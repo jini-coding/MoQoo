@@ -10,12 +10,14 @@ import SwiftUI
 struct EditSubGoalView: View {
     @EnvironmentObject var dataManager: DataManager
     
+    let finalGoalId: String //빼도됨
     let taskId: String
     
     @State var goalName: String
     @State var goalDetail: String
     @State var targetDate: Date
     
+    @State private var taskDetail: SubGoal? = nil
     @State private var goalNameLength: Int = 0
     @State private var goalDetailLength: Int = 0
     
@@ -41,7 +43,7 @@ struct EditSubGoalView: View {
             VStack(spacing: 28) {
                 InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName, textLength: $goalNameLength, lengthLimit: 14)
                 
-                InputSection(title: "목표 상세 설명", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, textLength: $goalDetailLength, lengthLimit: 25, isMultiline: true)
+                InputSection(title: "목표 상세 설명", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, textLength: $goalDetailLength, lengthLimit: 60, isMultiline: true)
                 
                 DatePickerSection(title: "목표일", targetDate: $targetDate)
 
@@ -57,6 +59,11 @@ struct EditSubGoalView: View {
         }
         .navigationBarHidden(true)
         //.navigationTitle("서브 목표 수정")
+        .onAppear {
+            dataManager.fetchTaskDetail(finalGoalId: finalGoalId, taskId: taskId) { fetchedData in
+                self.taskDetail = fetchedData
+            }
+        }
         
     }
     

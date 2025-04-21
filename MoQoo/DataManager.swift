@@ -203,6 +203,43 @@ class DataManager: ObservableObject {
         }
     }
 
+    func fetchTaskDetail(finalGoalId: String, taskId: String, completion: @escaping (SubGoal?) -> Void) {
+        let db = Firestore.firestore()
+        let ref = db.collection("SubGoals").document(taskId)
+        ref.getDocument { document, error in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                completion(nil)
+                return
+            }
+
+            if let document = document, document.exists {
+                let data = document.data() ?? [:]
+                
+                let id = data["id"] as? String ?? ""
+                let finalGoalId = data["finalGoalId"] as? String ?? ""
+                let title = data["title"] as? String ?? ""
+                let description = data["description"] as? String ?? ""
+                let status = data["status"] as? Int ?? 0
+
+                let targetDateTimestamp = data["targetDate"] as? Timestamp
+                let targetDate = targetDateTimestamp?.dateValue() ?? Date()
+
+                let createdAtTimestamp = data["createdAt"] as? Timestamp
+                let createdAt = createdAtTimestamp?.dateValue() ?? Date()
+
+                let priority = data["priority"] as? Int ?? 0
+                
+                
+                let task = SubGoal(id: id, finalGoalId: finalGoalId, title: title, description: description, status: status, targetDate: targetDate, createdAt: createdAt, priority: priority)
+                
+                DispatchQueue.main.async {
+                    completion(task)
+                    print(task)
+                }
+            }
+        }
+    }
 
     
     func createFinalGoal(title: String, description: String, targetDate: Date) {
