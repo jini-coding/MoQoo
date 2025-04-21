@@ -17,6 +17,7 @@ struct GoalDetailView: View {
     @EnvironmentObject var goalViewModel: GoalViewModel
     @Environment(\.dismiss) var dismiss
     
+    @State private var goalDetail: FinalGoal? = nil
     @State private var isShowingCreateSubGoalView = false
     @State private var isShowingCreateFinalGoalView = false
     @State private var isPresentingSubGoalSheet = false
@@ -79,6 +80,9 @@ struct GoalDetailView: View {
             .navigationBarHidden(true)
             .onAppear {
                 dataManager.fetchSubGoals(for: goalId)
+                dataManager.fetchGoalDetail(goalId: goalId) { fetchedData in
+                    self.goalDetail = fetchedData
+                }
             }
             
             if showMenuModal {
@@ -118,7 +122,7 @@ struct GoalDetailView: View {
         }
 
         NavigationLink(
-            destination: EditFinalGoalView(goalId: goalId, goalName: goal.title, goalDetail: goal.description, targetDate: goal.targetDate),
+            destination: EditFinalGoalView(goalId: goalId, goalName: goal.title, goalDetail: goal.description, goalResolution: goal.resolution, targetDate: goal.targetDate),
             isActive: $navigateToEditFinalGoal
         ) {
             EmptyView()
@@ -126,12 +130,55 @@ struct GoalDetailView: View {
     }
     
     var detailview: some View {
+        Group {
+            if let goal = goalDetail {
+                HStack {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("\(goal.title)")
+                            .font(.mq(.bold, size: 18))
+                        
+                        Text("\(goal.description)")
+                            .font(.mq(.medium, size: 14))
+                            .foregroundColor(.mqGrayStatusText)
+                            .multilineTextAlignment(.leading)
+                            .lineSpacing(5)
+                            .frame(width: 202, alignment: .leading)
+                            .padding(.bottom, 16)
+                        
+                        HStack {
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(Color(hex: "#\(goal.colorHex)"))
+                                .frame(width: 16, height: 16)
+                            
+                            Text("\(goal.moment)")
+                                .font(.mq(.medium, size: 14))
+                                .foregroundColor(.mqGrayStatusText)
+                        }
+                    }
+                    .padding(.leading, 24)
+                    
+                    Spacer()
+                    
+                    DetailCircleBar(progress: goal.progress, colorHex: goal.colorHex)
+                        .frame(width: 96, height: 96)
+                        .padding(.trailing, 24)
+                }
+                .padding(.bottom, 16)
+            }
+            else {
+                loadingdetailview
+            }
+        }
+
+    }
+    
+    var loadingdetailview: some View { //나중에 빈걸로 변경
         HStack {
             VStack(alignment: .leading, spacing: 10) {
-                Text("\(title)")
+                Text("\(goal.title)")
                     .font(.mq(.bold, size: 18))
                 
-                Text("UI/UX 공부를 위해 제일 먼저 피그마부터 정복해보자!")
+                Text("\(goal.description)")
                     .font(.mq(.medium, size: 14))
                     .foregroundColor(.mqGrayStatusText)
                     .multilineTextAlignment(.leading)
@@ -141,10 +188,10 @@ struct GoalDetailView: View {
                 
                 HStack {
                     RoundedRectangle(cornerRadius: 2)
-                        .fill(Color(hex: "#D6C3F1"))
+                        .fill(Color(hex: "#\(goal.colorHex)"))
                         .frame(width: 16, height: 16)
                     
-                    Text("7")
+                    Text("\(goal.moment)")
                         .font(.mq(.medium, size: 14))
                         .foregroundColor(.mqGrayStatusText)
                 }
@@ -153,7 +200,7 @@ struct GoalDetailView: View {
             
             Spacer()
             
-            DetailCircleBar(progress: 25)
+            DetailCircleBar(progress: goal.progress, colorHex: goal.colorHex)
                 .frame(width: 96, height: 96)
                 .padding(.trailing, 24)
         }

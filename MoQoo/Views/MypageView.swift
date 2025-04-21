@@ -24,7 +24,7 @@ struct MypageView: View {
                         .cornerRadius(10)
                 }
                 
-                NavigationLink(destination: EditFinalGoalView(goalId: "", goalName: "", goalDetail: "", targetDate: Date())) {
+                NavigationLink(destination: EditFinalGoalView(goalId: "", goalName: "", goalDetail: "", goalResolution: "", targetDate: Date())) {
                     Text("목표 수정하기")
                         .foregroundColor(.white)
                         .padding()

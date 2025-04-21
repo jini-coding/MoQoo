@@ -10,6 +10,7 @@ import SwiftUI
 struct CircleBar: View {
     
     var progress: Int
+    var colorHex: String
     
     var body: some View {
         ZStack {
@@ -29,7 +30,7 @@ struct CircleBar: View {
                             endAngle: .degrees(-90),
                             clockwise: true)
             }
-            .stroke(Color(hex: "#A6E1DE"), style: StrokeStyle(lineWidth: 16, lineCap: .round, lineJoin: .round))
+            .stroke(Color(hex: "#\(colorHex)"), style: StrokeStyle(lineWidth: 16, lineCap: .round, lineJoin: .round))
         }
         .frame(width: 120, height: 120)
         
@@ -39,6 +40,7 @@ struct CircleBar: View {
 struct DetailCircleBar: View {
     
     var progress: Int
+    var colorHex: String
     
     var body: some View {
         ZStack {
@@ -58,7 +60,7 @@ struct DetailCircleBar: View {
                             endAngle: .degrees(-90),
                             clockwise: true)
             }
-            .stroke(Color(hex: "#A6E1DE"), style: StrokeStyle(lineWidth: 14, lineCap: .round, lineJoin: .round))
+            .stroke(Color(hex: "#\(colorHex)"), style: StrokeStyle(lineWidth: 14, lineCap: .round, lineJoin: .round))
         }
         .frame(width: 96, height: 96)
     }
@@ -66,5 +68,5 @@ struct DetailCircleBar: View {
 
 
 #Preview {
-    DetailCircleBar(progress: 25)
+    DetailCircleBar(progress: 25, colorHex: "")
 }

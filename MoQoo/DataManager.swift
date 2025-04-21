@@ -130,6 +130,7 @@ class DataManager: ObservableObject {
         }
     }
     
+    //골에 해당하는 테스크들만 가져오기
     func fetchSubGoals(for goalId: String) {
         subGoals.removeAll()
 
@@ -166,9 +167,40 @@ class DataManager: ObservableObject {
         }
     }
     
-    func fetchGoalDetail(id: String) {
+    func fetchGoalDetail(goalId: String, completion: @escaping (FinalGoal?) -> Void) {
+        let db = Firestore.firestore()
+        let ref = db.collection("FinalGoals").document(goalId)
+        ref.getDocument { document, error in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                completion(nil)
+                return
+            }
 
-
+            if let document = document, document.exists {
+                let data = document.data() ?? [:]
+                
+                let id = data["id"] as? String ?? ""
+                let title = data["title"] as? String ?? ""
+                let description = data["description"] as? String ?? ""
+                let resolution = data["resolution"] as? String ?? ""
+                let progress = data["progress"] as? Int ?? 0
+                
+                let targetDateTimestamp = data["targetDate"] as? Timestamp
+                let targetDate = targetDateTimestamp?.dateValue() ?? Date()
+                
+                let colorHex = data["colorHex"] as? String ?? ""
+                
+                let createdAtTimestamp = data["createdAt"] as? Timestamp
+                let createdAt = createdAtTimestamp?.dateValue() ?? Date()
+                
+                let goal = FinalGoal(id: id, title: title, description: description, resolution: resolution, progress: progress, moment: 5, targetDate: targetDate, colorHex: colorHex, createdAt: createdAt, subGoals: [])
+                
+                DispatchQueue.main.async {
+                    completion(goal)
+                }
+            }
+        }
     }
 
 

@@ -34,7 +34,7 @@ struct ContentMainView: View {
                 
                 Spacer()
                 
-                CircleBar(progress: 25)
+                CircleBar(progress: 25, colorHex: "#71AB6B")
                     //.background(.yellow)
                     .padding(.top, 18)
                     .offset(x: 0, y: 4)
@@ -68,6 +68,20 @@ struct ContentMainView: View {
             }
             
             ScrollView {
+//                LazyVStack(spacing: 0) {
+//                    let subGoalsForGoal = dataManager.subGoalsDict[goalId] ?? []
+//                    
+//                    ForEach(subGoalsForGoal) { goal in
+//                        NavigationLink(
+//                            destination: EditSubGoalView(taskId: goal.id!, goalName: goal.title, goalDetail: goal.description, targetDate: goal.targetDate)
+//                        ) {
+//                            SubGoalListCell(title: goal.title,
+//                                            detail: goal.description,
+//                                            status: goal.status,
+//                                            leftDay: goal.status)
+//                        }
+//                        .buttonStyle(PlainButtonStyle())
+//                    }
                 LazyVStack(spacing: 0) {
                     ForEach(dataManager.subGoals) { goal in
                         TodoCell(title: goal.title, status: goal.status, leftDay: goal.priority)
