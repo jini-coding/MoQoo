@@ -40,7 +40,7 @@ struct TaskDetailModalView: View {
             }
             
         }
-        .frame(height: 250)
+        .frame(height: 230)
         .cornerRadius(25)
         .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 0)
         .padding(.horizontal, 35)

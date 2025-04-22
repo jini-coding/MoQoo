@@ -42,7 +42,7 @@ struct CreateFinalGoalView: View {
                     
                     InputSection(title: "상세 설명", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, textLength: $goalDetailLength, lengthLimit: 25)
                     
-                    InputSection(title: "나의 다짐", placeholder: "목표에 임하는 나의 다짐을 입력해주세요", text: $goalResolution, textLength: $resolutionLength, lengthLimit: 25)
+                    //InputSection(title: "나의 다짐", placeholder: "목표에 임하는 나의 다짐을 입력해주세요", text: $goalResolution, textLength: $resolutionLength, lengthLimit: 25)
                     
                     DatePickerSection(title: "목표일", targetDate: $targetDate)
                     

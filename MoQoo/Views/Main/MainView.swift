@@ -44,8 +44,8 @@ struct MainView: View {
                     }
                     
                     ZStack {
-                        Triangle()
-                            .offset(x: -80, y: -235) //위치 나중에 원 기준으로....
+//                        Triangle()
+//                            .offset(x: -80, y: -235) //위치 나중에 원 기준으로....
                         
                         RoundedRectangle(cornerRadius: 8)
                             .fill(.white)

@@ -34,7 +34,7 @@ struct GoalDetailView: View {
                 
                 VStack {
                     NavigationBar {
-                        Text("\(title)")
+                        Text("목표 상세보기")
                             .font(.mq(.semibold, size: 18))
                     } leading: {
                         Button(action: {
