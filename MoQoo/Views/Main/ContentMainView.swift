@@ -39,7 +39,7 @@ struct ContentMainView: View {
                     
                     Spacer()
                     
-                    CircleBar(progress: 25, colorHex: "#\(goal.colorHex)")
+                    CircleBar(progress: goal.progress, colorHex: "#\(goal.colorHex)")
                     //.background(.yellow)
                         .padding(.top, 18)
                         .offset(x: 0, y: 4)

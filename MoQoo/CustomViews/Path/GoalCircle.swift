@@ -25,17 +25,19 @@ struct GoalCircle: View {
                 Path { path in
                     path.addArc(center: CGPoint(x: 25, y: 25),
                                 radius: 20,
-                                startAngle: .degrees(360),
-                                endAngle: .degrees(0),
+                                startAngle: .degrees(-90),
+                                endAngle: .degrees(270),
                                 clockwise: false)
                 }
                 .stroke(Color.mqGrayStatusBg, style: StrokeStyle(lineWidth: 7, lineCap: .round, lineJoin: .round))
                 
                 Path { path in
+                    let startAngle = -90.0
+                    let endAngle = startAngle + (Double(progress) / 100 * 360.0)
                     path.addArc(center: CGPoint(x: 25, y: 25),
                                 radius: 20,
-                                startAngle: .degrees(-90),
-                                endAngle: .degrees(50),
+                                startAngle: .degrees(startAngle),
+                                endAngle: .degrees(endAngle),
                                 clockwise: false)
                 }
                 .stroke(color, style: StrokeStyle(lineWidth: 7, lineCap: .round, lineJoin: .round))

@@ -17,18 +17,20 @@ struct CircleBar: View {
             Path { path in
                 path.addArc(center: CGPoint(x: 60, y: 60),
                             radius: 50,
-                            startAngle: .degrees(360),
-                            endAngle: .degrees(0),
-                            clockwise: true)
+                            startAngle: .degrees(-90),
+                            endAngle: .degrees(270),
+                            clockwise: false)
             }
             .stroke(Color.mqGrayStatusBg, style: StrokeStyle(lineWidth: 16, lineCap: .round, lineJoin: .round))
             
             Path { path in
+                let startAngle = -90.0
+                let endAngle = startAngle + (Double(progress) / 100 * 360.0)
                 path.addArc(center: CGPoint(x: 60, y: 60),
                             radius: 50,
-                            startAngle: .degrees(120),
-                            endAngle: .degrees(-90),
-                            clockwise: true)
+                            startAngle: .degrees(Double(startAngle)),
+                            endAngle: .degrees(Double(endAngle)),
+                            clockwise: false)
             }
             .stroke(Color(hex: "#\(colorHex)"), style: StrokeStyle(lineWidth: 16, lineCap: .round, lineJoin: .round))
         }
@@ -47,18 +49,20 @@ struct DetailCircleBar: View {
             Path { path in
                 path.addArc(center: CGPoint(x: 48, y: 48),
                             radius: 40,
-                            startAngle: .degrees(360),
-                            endAngle: .degrees(0),
-                            clockwise: true)
+                            startAngle: .degrees(-90),
+                            endAngle: .degrees(270),
+                            clockwise: false)
             }
             .stroke(Color.mqGrayStatusBg, style: StrokeStyle(lineWidth: 14, lineCap: .round, lineJoin: .round))
             
             Path { path in
+                let startAngle = -90.0
+                let endAngle = startAngle + (Double(progress) / 100 * 360.0)
                 path.addArc(center: CGPoint(x: 48, y: 48),
                             radius: 40,
-                            startAngle: .degrees(120),
-                            endAngle: .degrees(-90),
-                            clockwise: true)
+                            startAngle: .degrees(startAngle),
+                            endAngle: .degrees(endAngle),
+                            clockwise: false)
             }
             .stroke(Color(hex: "#\(colorHex)"), style: StrokeStyle(lineWidth: 14, lineCap: .round, lineJoin: .round))
         }
@@ -68,5 +72,5 @@ struct DetailCircleBar: View {
 
 
 #Preview {
-    DetailCircleBar(progress: 25, colorHex: "")
+    CircleBar(progress: 25, colorHex: "")
 }

@@ -18,7 +18,6 @@ struct MainDashboardView: View {
             Path { path in
                 path.move(to: CGPoint(x: 52, y: 0))
                 path.addLine(to: CGPoint(x: 52, y: 92))
-                path.closeSubpath()
             }
             .stroke(Color(hex: "#C4C4C4"), style: StrokeStyle(lineWidth: 1, lineCap: .round, lineJoin: .round))
             
@@ -54,6 +53,17 @@ struct MainDashboardView: View {
                                 GoalCircle(title: goal.title, progress: goal.progress, color: Color(hex: "#\(goal.colorHex)"))
                             }
                             .buttonStyle(.plain)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 6)
+                            .background(
+                                selectedGoalId == goal.id ? Color.mqGraybg.opacity(0.6) : Color.clear
+                            )
+                            .cornerRadius(8)
+//                            .overlay(
+//                                RoundedRectangle(cornerRadius: 10)
+//                                    .stroke(Color.mqGrayPlaceholder, lineWidth: 1.5)
+//                                    .shadow(radius: 4)
+//                            )
                         }
                     }
                     //.background(Color.mqGray)
