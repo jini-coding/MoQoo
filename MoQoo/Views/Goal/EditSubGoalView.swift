@@ -69,7 +69,7 @@ struct EditSubGoalView: View {
     
     func editTask() {
         print("골 수정")
-        dataManager.editTask(taskId: taskId, title: goalName, description: goalDetail, targetDate: targetDate)
+        dataManager.editTask(taskId: taskId, title: goalName, description: goalDetail, status: 2, targetDate: targetDate)
     }
 }
 

@@ -61,7 +61,7 @@ struct CreateFinalGoalView: View {
             //.navigationTitle("목표 생성")
             
             if showCompleteModal {
-                CompleteModalView(task: 1)
+                CompleteModalView(task: 1, title: goalName, colorHex: colorHex)
             }
         }
         
@@ -71,7 +71,7 @@ struct CreateFinalGoalView: View {
         withAnimation {
             showCompleteModal = true
         }
-        dataManager.createFinalGoal(title: goalName, description: goalDetail, targetDate: targetDate)
+        dataManager.createFinalGoal(title: goalName, description: goalDetail, targetDate: targetDate, colorHex: colorHex)
         print("골 생성")
     }
 }

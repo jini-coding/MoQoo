@@ -29,10 +29,11 @@ struct MoQooApp: App {
   var body: some Scene {
     WindowGroup {
       NavigationView {
-          //TabBarView()
-          LoginView()
+          TabBarView()
               .environmentObject(dataManager)
               .environmentObject(goalViewModel)
+          //LoginView()
+              
       }
     }
   }

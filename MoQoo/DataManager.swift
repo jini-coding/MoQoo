@@ -40,6 +40,7 @@ class DataManager: ObservableObject {
                     let description = data["description"] as? String ?? ""
                     let resolution = data["resolution"] as? String ?? ""
                     let progress = data["progress"] as? Int ?? 0
+                    let moment = data["moment"] as? Int ?? 0
                     
                     let targetDateTimestamp = data["targetDate"] as? Timestamp
                     let targetDate = targetDateTimestamp?.dateValue() ?? Date()
@@ -50,7 +51,7 @@ class DataManager: ObservableObject {
                     let createdAt = createdAtTimestamp?.dateValue() ?? Date()
                     
                     
-                    let goal = FinalGoal(id: id, title: title, description: description, resolution: resolution, progress: progress, moment: 5, targetDate: targetDate, colorHex: colorHex, createdAt: createdAt, subGoals: [])
+                    let goal = FinalGoal(id: id, title: title, description: description, resolution: resolution, progress: progress, moment: moment, targetDate: targetDate, colorHex: colorHex, createdAt: createdAt, subGoals: [])
                     self.finalGoals.append(goal)
                 }
             }
@@ -185,6 +186,7 @@ class DataManager: ObservableObject {
                 let description = data["description"] as? String ?? ""
                 let resolution = data["resolution"] as? String ?? ""
                 let progress = data["progress"] as? Int ?? 0
+                let moment = data["moment"] as? Int ?? 0
                 
                 let targetDateTimestamp = data["targetDate"] as? Timestamp
                 let targetDate = targetDateTimestamp?.dateValue() ?? Date()
@@ -194,7 +196,7 @@ class DataManager: ObservableObject {
                 let createdAtTimestamp = data["createdAt"] as? Timestamp
                 let createdAt = createdAtTimestamp?.dateValue() ?? Date()
                 
-                let goal = FinalGoal(id: id, title: title, description: description, resolution: resolution, progress: progress, moment: 5, targetDate: targetDate, colorHex: colorHex, createdAt: createdAt, subGoals: [])
+                let goal = FinalGoal(id: id, title: title, description: description, resolution: resolution, progress: progress, moment: moment, targetDate: targetDate, colorHex: colorHex, createdAt: createdAt, subGoals: [])
                 
                 DispatchQueue.main.async {
                     completion(goal)
@@ -242,7 +244,7 @@ class DataManager: ObservableObject {
     }
 
     
-    func createFinalGoal(title: String, description: String, targetDate: Date) {
+    func createFinalGoal(title: String, description: String, targetDate: Date, colorHex: String) {
         let db = Firestore.firestore()
         let ref = db.collection("FinalGoals").document()
         
@@ -253,8 +255,9 @@ class DataManager: ObservableObject {
                 "description": description,
                 "resolution": "아아아",
                 "progress": 0,
+                "moment": 0,
                 "targetDate": Timestamp(date: targetDate),
-                "colorHex": "#FFCC00",
+                "colorHex": "#\(colorHex)",
                 "createdAt": Timestamp(date: createdAt)
         ]
         
@@ -281,7 +284,7 @@ class DataManager: ObservableObject {
                 "finalGoalId": finalGoalId,
                 "title": title,
                 "description": description,
-                "status": "아아아",
+                "status": 0,
                 "targetDate": Timestamp(date: targetDate),
                 "createdAt": Timestamp(date: createdAt),
                 "priority": priority
@@ -326,14 +329,14 @@ class DataManager: ObservableObject {
         }
     }
     
-    func editTask(taskId: String, title: String, description: String, targetDate: Date) {
+    func editTask(taskId: String, title: String, description: String, status: Int, targetDate: Date) {
         let db = Firestore.firestore()
         let ref = db.collection("SubGoals").document(taskId)
         
         let updatedTask: [String: Any] = [
                 "title": title,
                 "description": description,
-                "status": 0,
+                "status": status,
                 "targetDate": Timestamp(date: targetDate),
                 "priority": 2
         ]
@@ -404,5 +407,23 @@ class DataManager: ObservableObject {
             }
         }
 
+    }
+    
+    func updateStatus(taskId: String, status: Int) {
+        let db = Firestore.firestore()
+        let ref = db.collection("SubGoals").document(taskId)
+        
+        let updatedStatus = ["status": status]
+        
+        ref.setData(updatedStatus, merge: true) { error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                print("상태 업데이트 완료!!")
+                DispatchQueue.main.async {
+                    self.fetchTasks()
+                }
+            }
+        }
     }
 }

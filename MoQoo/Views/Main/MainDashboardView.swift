@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct MainDashboardView: View {
-    
+    @EnvironmentObject var dataManager: DataManager
+    @Binding var selectedGoalId: String?
     
     var body: some View {
         ZStack {
@@ -42,23 +43,20 @@ struct MainDashboardView: View {
 //                    .frame(height: 92)
                     
                 
-                Spacer().frame(width: 20)
+                Spacer().frame(width: 30)
                 
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 14) {
-                        ForEach(0..<1, id: \.self) { _ in
-                            GoalCircle(title: "Figma 정복하기", progress: 25, color: Color(hex: "#A847FF"))
-                            
-                            GoalCircle(title: "Swift 정복하기", progress: 25, color: Color(hex: "#342353"))
-                            
-                            GoalCircle(title: "JLPT N3 따기", progress: 25, color: Color(hex: "#EF389E"))
-                            
-                            GoalCircle(title: "Figma 정복하기", progress: 25, color: Color(hex: "#342353"))
+                        ForEach(dataManager.finalGoals) { goal in
+                            Button(action: {
+                                    selectedGoalId = goal.id // 선택된 goalId 변경
+                            }) {
+                                GoalCircle(title: goal.title, progress: goal.progress, color: Color(hex: "#\(goal.colorHex)"))
+                            }
+                            .buttonStyle(.plain)
                         }
                     }
-                    .frame(width: 311)
-                    .padding(.horizontal, 16)
-                    .padding(.trailing, 16)
+                    //.background(Color.mqGray)
                 }
                 .scrollIndicators(.hidden)
                 .padding(.trailing, 16)
@@ -84,6 +82,7 @@ struct currentState: View {
 }
 
 
-#Preview {
-    MainDashboardView()
-}
+//#Preview {
+//    MainDashboardView()
+//        .environmentObject(DataManager())
+//}

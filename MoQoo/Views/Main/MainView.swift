@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MainView: View {
+    @EnvironmentObject var dataManager: DataManager
+    @State private var selectedGoalId: String?
     
     var body: some View {
         NavigationStack {
@@ -16,7 +18,7 @@ struct MainView: View {
                 
                 VStack {
                     HStack {
-                        Text("오늘도 목표를 향해\n한발짝 더 다가가볼까요?")
+                        Text("오늘도 목표를 향해\n한걸음 더 다가가볼까요?")
                             .font(.mq(.semibold, size: 24))
                             .foregroundColor(.white)
                             .tracking(0.5)
@@ -37,7 +39,7 @@ struct MainView: View {
                             .frame(height: 92)
                             .padding(.bottom, 12)
                         
-                        MainDashboardView()
+                        MainDashboardView(selectedGoalId: $selectedGoalId)
                             .offset(x: 0, y: -5)
                     }
                     
@@ -49,15 +51,29 @@ struct MainView: View {
                             .fill(.white)
                             .ignoresSafeArea()
                         
-                        // if
-                        ContentMainView()
-                        //EmptyMainView()
+                        if let selectedGoalId {
+                            ContentMainView(goalId: selectedGoalId)
+                        } else {
+                           // EmptyMainView()
+                            ProgressMainView()
+                        }
                     }
                     
                     
                 }
                 
                 
+            }
+        }
+        .onAppear {
+            if selectedGoalId == nil,
+               let firstGoal = dataManager.finalGoals.first {
+                selectedGoalId = firstGoal.id
+            }
+        }
+        .onReceive(dataManager.$finalGoals) { goals in
+            if selectedGoalId == nil, let first = goals.first {
+                selectedGoalId = first.id
             }
         }
     }

@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct TodoCell: View {
+    @EnvironmentObject var goalViewModel: GoalViewModel
+    
     var title: String
     var status: Int
-    var leftDay: Int
+    var targetDate: Date
     
     var goalStatus: GoalStatus {
         GoalStatus(rawValue: status) ?? .notStarted
@@ -28,7 +30,7 @@ struct TodoCell: View {
                     
                     Spacer()
                     
-                    Text("D - \(leftDay)")
+                    Text("\(goalViewModel.calculateDday(from: targetDate))")
                         .font(.mq(.bold, size: 14))
                         .foregroundColor(Color(hex: "#F54646"))
                         .padding(.trailing, 10)

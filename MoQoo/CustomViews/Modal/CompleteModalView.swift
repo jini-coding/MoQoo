@@ -12,6 +12,8 @@ struct CompleteModalView: View {
     @Environment(\.dismiss) private var dismiss
     
     var task: Int
+    var title: String = ""
+    var colorHex: String = "FFEE00"
     
     var body: some View {
         ZStack {
@@ -41,7 +43,7 @@ struct CompleteModalView: View {
                     ZStack {
                         Circle()
                             .frame(width: 18, height: 18)
-                            .foregroundColor(Color(hex: "#81D278"))
+                            .foregroundColor(Color(hex: "#\(colorHex)"))
                         
                         Circle()
                             .frame(width: 5.25, height: 5.25)
@@ -51,7 +53,7 @@ struct CompleteModalView: View {
                     
                     Spacer().frame(width: 8)
                     
-                    Text("Figma 정복하기")
+                    Text("\(title)")
                         .font(.mq(.bold, size: 20))
                         .foregroundColor(.black)
                 }
