@@ -14,39 +14,6 @@ struct MypageView: View {
             VStack {
                 Color.white.ignoresSafeArea()
                 
-                Text("Goal")
-                
-                NavigationLink(destination: CreateFinalGoalView()) {
-                    Text("새로운 목표 생성하기")
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.mqMain)
-                        .cornerRadius(10)
-                }
-                
-                NavigationLink(destination: EditFinalGoalView(goalId: "", goalName: "", goalDetail: "", goalResolution: "", targetDate: Date())) {
-                    Text("목표 수정하기")
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.mqMain)
-                        .cornerRadius(10)
-                }
-                
-                NavigationLink(destination: CreateSubGoalView(finalGoalId: "")) {
-                    Text("서브 목표 생성하기")
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.mqMain)
-                        .cornerRadius(10)
-                }
-                
-                NavigationLink(destination: EditSubGoalView(finalGoalId: "", taskId: "", goalName: "", goalDetail: "", targetDate: Date())) {
-                    Text("서브 목표 수정하기")
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.mqMain)
-                        .cornerRadius(10)
-                }
                 
                 Spacer().frame(height: 120)
 

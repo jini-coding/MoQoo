@@ -9,7 +9,7 @@ import SwiftUI
 import Firebase
 
 class DataManager: ObservableObject {
-    @Published var finalGoals: [FinalGoal] = []
+    @Published var finalGoals: [FinalGoal] = [] //나중에
     @Published var subGoals: [SubGoal] = []
     @Published var subGoalsDict: [String: [SubGoal]] = [:]
     

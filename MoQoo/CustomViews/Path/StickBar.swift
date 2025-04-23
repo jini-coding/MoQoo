@@ -10,6 +10,7 @@ import SwiftUI
 struct StickBar: View {
     
     var progress: Int
+    var colorHex: String
     
     var progressColor: Color {
         switch progress {
@@ -38,7 +39,7 @@ struct StickBar: View {
                 path.move(to: .zero)
                 path.addLine(to: CGPoint(x: (262 * progress)/100, y: 0))
             }
-            .stroke(progressColor, style: StrokeStyle(lineWidth: 8, lineCap: .round, lineJoin: .round))
+            .stroke(Color(hex: "#\(colorHex)"), style: StrokeStyle(lineWidth: 8, lineCap: .round, lineJoin: .round))
         }
         .frame(width: 262, height: 8)
         
@@ -46,11 +47,11 @@ struct StickBar: View {
 }
 
 
-#Preview {
-    VStack(spacing: 20) {
-        StickBar(progress: 0)
-        StickBar(progress: 20)
-        StickBar(progress: 50)
-        StickBar(progress: 85)
-    }
-}
+//#Preview {
+//    VStack(spacing: 20) {
+//        StickBar(progress: 0)
+//        StickBar(progress: 20)
+//        StickBar(progress: 50)
+//        StickBar(progress: 85)
+//    }
+//}

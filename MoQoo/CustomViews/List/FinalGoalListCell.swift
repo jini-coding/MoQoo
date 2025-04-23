@@ -79,7 +79,7 @@ struct FinalGoalListCell: View {
                 
                 HStack(spacing: 19) {
                     //바그래프
-                    StickBar(progress: progress)
+                    StickBar(progress: progress, colorHex: colorHex)
                         .frame(width: 262, height: 8)
                         .padding(.leading, 26)
                     
@@ -87,7 +87,7 @@ struct FinalGoalListCell: View {
                     Text("\(progress)%")
                         .font(.mq(.medium, size: 14))
                         .foregroundColor(.mqGrayStatusText)
-                        .frame(width: 34)
+                        .frame(width: 38)
                         .offset(x: 0, y: -3)
                         .padding(.trailing, 22)
                     

@@ -16,6 +16,7 @@ struct EditFinalGoalView: View {
     @State var goalDetail: String
     @State var goalResolution: String
     @State var targetDate: Date
+    @State var colorHex: String
     
     @State private var goalNameLength: Int = 0
     @State private var goalDetailLength: Int = 0
@@ -52,15 +53,15 @@ struct EditFinalGoalView: View {
             Spacer().frame(height: 24)
             
             VStack(spacing: 2) {
-                InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName, textLength: $goalNameLength, lengthLimit: 14)
+                InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName, textLength: $goalNameLength, lengthLimit: 7)
                 
                 InputSection(title: "상세 설명", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, textLength: $goalDetailLength, lengthLimit: 25)
                 
                 //InputSection(title: "나의 다짐", placeholder: "목표에 임하는 나의 다짐을 입력해주세요", text: $goalResolution, textLength: $resolutionLength, lengthLimit: 25)
                 
-                DatePickerSection(title: "목표일", targetDate: $targetDate)
+                DatePickerSection(title: "목표일", placeholder: "목표일을 설정해주세요", targetDate: $targetDate)
                 
-                DatePickerSection(title: "색상", targetDate: $targetDate)
+                ColorPickerSection(title: "색상", colorHex: $colorHex)
 //                InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName, textLength: $goalNameLength, lengthLimit: 14)
 //                
 //                InputSection(title: "상세 설명 및 다짐", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, textLength: $goalDetailLength, lengthLimit: 100, isMultiline: true)
@@ -100,6 +101,6 @@ struct EditFinalGoalView: View {
     }
 }
 
-#Preview {
-    EditFinalGoalView(goalId: "", goalName: "", goalDetail: "", goalResolution: "", targetDate: Date())
-}
+//#Preview {
+//    EditFinalGoalView(goalId: "", goalName: "", goalDetail: "", goalResolution: "", targetDate: Date())
+//}

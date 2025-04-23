@@ -102,15 +102,15 @@ struct GoalDetailView: View {
             
             if showDeleteModal {
                 DeleteModalView(title: title,
+                                cancelButtonTapped: {
+                    showDeleteModal = false
+                },
                                 deleteButtonTapped: {
                     withAnimation {
                          showDeleteModal = false
                          showDeleteCompleteModal = true
                      }
                     dataManager.deleteFinalGoal(goalId: goalId)
-                },
-                                cancelButtonTapped: {
-                    showDeleteModal = false
                 })
             }
             
@@ -122,7 +122,7 @@ struct GoalDetailView: View {
         }
 
         NavigationLink(
-            destination: EditFinalGoalView(goalId: goalId, goalName: goal.title, goalDetail: goal.description, goalResolution: goal.resolution, targetDate: goal.targetDate),
+            destination: EditFinalGoalView(goalId: goalId, goalName: goal.title, goalDetail: goal.description, goalResolution: goal.resolution, targetDate: goal.targetDate, colorHex: goal.colorHex),
             isActive: $navigateToEditFinalGoal
         ) {
             EmptyView()

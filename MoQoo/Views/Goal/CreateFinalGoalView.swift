@@ -21,6 +21,7 @@ struct CreateFinalGoalView: View {
     @State private var goalDetailLength: Int = 0
     @State private var resolutionLength: Int = 0
     @State private var showCompleteModal: Bool = false
+    @State private var tabBarVisible: Bool = false
     
     var body: some View {
         ZStack {
@@ -30,6 +31,7 @@ struct CreateFinalGoalView: View {
                         .font(.mq(.semibold, size: 18))
                 } leading: {
                     Button(action: {
+                        self.tabBarVisible = true
                         dismiss()
                     }) {
                         Image("backIcon") }
@@ -38,13 +40,13 @@ struct CreateFinalGoalView: View {
                 Spacer().frame(height: 24)
                 
                 VStack(spacing: 2) {
-                    InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName, textLength: $goalNameLength, lengthLimit: 14)
+                    InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName, textLength: $goalNameLength, lengthLimit: 7)
                     
                     InputSection(title: "상세 설명", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, textLength: $goalDetailLength, lengthLimit: 25)
                     
                     //InputSection(title: "나의 다짐", placeholder: "목표에 임하는 나의 다짐을 입력해주세요", text: $goalResolution, textLength: $resolutionLength, lengthLimit: 25)
                     
-                    DatePickerSection(title: "목표일", targetDate: $targetDate)
+                    DatePickerSection(title: "목표일", placeholder: "목표일을 설정해주세요", targetDate: $targetDate)
                     
                     ColorPickerSection(title: "색상", colorHex: $colorHex)
                 }

@@ -1,13 +1,13 @@
 //
-//  DeleteModalView.swift
+//  DeleteTaskModalView.swift
 //  MoQoo
 //
-//  Created by Jini on 4/21/25.
+//  Created by Jini on 4/23/25.
 //
 
 import SwiftUI
 
-struct DeleteModalView: View {
+struct DeleteTaskModalView: View {
     
     var title: String
     var cancelButtonTapped: () -> Void
@@ -25,17 +25,9 @@ struct DeleteModalView: View {
                     .foregroundColor(.black)
                     .padding(.bottom, 2)
                 
-                Text("목표를 정말 삭제하시겠어요?")
+                Text("테스크를 정말 삭제하시겠어요?")
                     .font(.mq(.semibold, size: 20))
                     .foregroundColor(.black)
-                
-                Spacer().frame(height: 20)
-                
-                Text("하위에 생성된 서브 목표들도 모두 삭제돼요")
-                    .font(.mq(.medium, size: 16))
-                    .foregroundColor(.black)
-                    .padding(.horizontal, 20) //여기 왜 이런걸까..?
-                    .multilineTextAlignment(.leading)
                 
                 Spacer().frame(height: 20)
                 
@@ -57,5 +49,5 @@ struct DeleteModalView: View {
 }
 
 #Preview {
-    DeleteModalView(title: "dfs", cancelButtonTapped: {}, deleteButtonTapped: {})
+    DeleteTaskModalView(title: "", cancelButtonTapped: {}, deleteButtonTapped: {})
 }

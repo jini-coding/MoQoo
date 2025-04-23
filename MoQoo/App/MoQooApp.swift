@@ -28,7 +28,7 @@ struct MoQooApp: App {
 
   var body: some Scene {
     WindowGroup {
-      NavigationView {
+      NavigationView { //이거 때문에 오류가 난건가..????
           TabBarView()
               .environmentObject(dataManager)
               .environmentObject(goalViewModel)
