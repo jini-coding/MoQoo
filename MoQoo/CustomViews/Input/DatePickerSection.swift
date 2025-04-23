@@ -32,56 +32,73 @@ struct DatePickerSection: View {
         return dateFormatter.string(from: date)
     }
     
+    var defaultDate: Date {
+        Calendar.current.startOfDay(for: Date())
+    }
+    
+    var displayDateText: String {
+        Calendar.current.isDate(targetDate, inSameDayAs: defaultDate) ?
+        "목표 마감일을 선택해주세요" :
+        formatDateToString(targetDate)
+    }
+    
     var body: some View {
         VStack {
             InputText(text: title)
                 .padding(.bottom, 4)
             
 //            InputTextField(placeholder: placeholder, text: $text)
-//            
-//            Button(action: {
-//                showDatePicker = true
-//            }) {
-//                HStack {
-//                    Text(formattedDateString.isEmpty ? placeholder : formattedDateString)
-//                        .foregroundColor(formattedDateString.isEmpty ? .gray : .black)
-//                }
+            
+            ZStack {
+                Text(displayDateText)
+                    .foregroundColor(targetDate == defaultDate ? Color(hex: "#BEC4C6") : .black)
+                    .padding(.horizontal, 20)
+                    .frame(height: 52)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.mqGraybg)
+                    .cornerRadius(8)
+                    .padding(.horizontal, 16)
+                
+                HStack { //야매...
+                    DatePicker(
+                        "",
+                        selection: $targetDate, in: dateClosedRange, displayedComponents: .date)
+                    .datePickerStyle(.compact)
+                    .labelsHidden()
+                    .tint(.mqMain)
+                    .colorMultiply(.clear)
+                    
+                    DatePicker(
+                        "",
+                        selection: $targetDate, in: dateClosedRange, displayedComponents: .date)
+                    .datePickerStyle(.compact)
+                    .labelsHidden()
+                    .tint(.mqMain)
+                    .colorMultiply(.clear)
+                }
+
+            }
+
+//            DatePicker("날짜 선택", selection: $targetDate, in: dateClosedRange, displayedComponents: .date)
+//                .labelsHidden()
 //                .padding(.vertical, 12)
-//                .padding(.horizontal, 16)
+//                .frame(maxWidth: .infinity)
 //                .background(Color.mqGraybg)
-//                .cornerRadius(10)
-//            }
-//            .sheet(isPresented: $showDatePicker) {
-//                VStack {
-//                    DatePicker(
-//                        "날짜 선택",
-//                        selection: $targetDate,
-//                        in: dateClosedRange,
-//                        displayedComponents: .date
-//                    )
-//                    .datePickerStyle(.compact)
-//                    .labelsHidden()
-//                    .padding()
-//                    
-//                    Button("선택 완료") {
-//                        showDatePicker = false
-//                    }
-//                    .padding(.bottom)
-//                }
-//                .presentationDetents([.height(300)])
-//            }
-            DatePicker("날짜 선택", selection: $targetDate, in: dateClosedRange, displayedComponents: .date)
-                .labelsHidden()
-                .padding(.vertical, 12)
-                .frame(maxWidth: .infinity)
-                .background(Color.mqGraybg)
-                .cornerRadius(10)
-                .padding(.horizontal, 16)
-                .datePickerStyle(.compact)
+//                .cornerRadius(8)
+//                .padding(.horizontal, 16)
+//                .datePickerStyle(.compact)
+//                .colorMultiply(.clear)
             
             // 스타일 수정하기
         }
         .padding(.bottom, 20)
+    }
+    
+    func formatDateToString(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.dateFormat = "yyyy년 M월 d일"
+        return formatter.string(from: date)
     }
 }
 

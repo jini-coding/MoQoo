@@ -14,7 +14,7 @@ struct CreateFinalGoalView: View {
     @State private var goalName: String = ""
     @State private var goalDetail: String = ""
     @State private var goalResolution: String = ""
-    @State private var targetDate: Date = Date()
+    @State private var targetDate: Date = Calendar.current.startOfDay(for: Date())
     @State private var colorHex: String = "FF0000"
     
     @State private var goalNameLength: Int = 0

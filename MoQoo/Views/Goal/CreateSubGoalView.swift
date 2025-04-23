@@ -14,7 +14,7 @@ struct CreateSubGoalView: View {
     
     @State private var goalName: String = ""
     @State private var goalDetail: String = ""
-    @State private var targetDate: Date = Date()
+    @State private var targetDate: Date = Calendar.current.startOfDay(for: Date())
     @State private var goalNameLength: Int = 0
     @State private var goalDetailLength: Int = 0
     @State private var showCompleteModal: Bool = false
