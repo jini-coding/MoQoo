@@ -67,6 +67,7 @@ struct MenuModalView: View {
         .frame(width: 121, height: 76)
         .cornerRadius(8)
         .shadow(color: Color.black.opacity(0.2), radius: 3, x: 0, y: 0)
+        .offset(x: 120, y: -255)
     }
 }
 

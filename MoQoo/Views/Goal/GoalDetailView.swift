@@ -17,6 +17,9 @@ struct GoalDetailView: View {
     @EnvironmentObject var goalViewModel: GoalViewModel
     @Environment(\.dismiss) var dismiss
     
+    @State private var selectedTaskId: String? = nil
+    @State private var taskTitle: String? = nil
+    @State private var taskStatus: Int? = nil
     @State private var goalDetail: FinalGoal? = nil
     @State private var isShowingCreateSubGoalView = false
     @State private var isShowingCreateFinalGoalView = false
@@ -25,6 +28,9 @@ struct GoalDetailView: View {
     @State private var showMenuModal = false
     @State private var showDeleteModal = false
     @State private var showDeleteCompleteModal = false
+    @State private var showTaskDeleteModal = false
+    @State private var showTaskDeleteCompleteModel = false
+    @State private var showTaskDetailModal = false
     @State private var navigateToEditFinalGoal = false
     
     var body: some View {
@@ -97,7 +103,7 @@ struct GoalDetailView: View {
                         showDeleteModal = true
                     }
                 })
-                    .offset(x: 120, y: -255)
+                    //.offset(x: 120, y: -255)
             }//사라질때도 부드럽게...
             
             if showDeleteModal {
@@ -117,6 +123,48 @@ struct GoalDetailView: View {
             if showDeleteCompleteModal {
                 VStack {
                     CompleteDeleteModalView()
+                }
+            }
+            
+            if showTaskDetailModal {
+                VStack {
+                    TaskDetailModalView(showTaskDetailModal: $showTaskDetailModal,
+                                        selectedStatus: $taskStatus,
+                                        taskId: selectedTaskId!,
+                                        deleteButtonTapped: {                    
+                        withAnimation {
+                            showTaskDeleteModal = true
+                    }},
+                                        editButtonTapped: {
+                        
+                    })
+                }
+            }
+            
+            if showTaskDeleteModal {
+                VStack {
+                    DeleteTaskModalView(title: $taskTitle,
+                                        cancelButtonTapped: {
+                        showTaskDeleteModal = false
+                    },
+                                        deleteButtonTapped: {
+                        withAnimation {
+                            showTaskDeleteModal = false
+                            showTaskDeleteCompleteModel = true
+                        }
+                        dataManager.deleteTask(taskId: selectedTaskId!)
+                    })
+                }
+            }
+            
+            if showTaskDeleteCompleteModel {
+                VStack {
+                    CompleteDeleteTaskModalView(completeButtonTapped: {
+                        withAnimation {
+                            showTaskDeleteCompleteModel = false
+                            showTaskDetailModal = false
+                        }
+                    })
                 }
             }
         }
@@ -219,15 +267,32 @@ struct GoalDetailView: View {
                         let subGoalsForGoal = dataManager.subGoalsDict[goalId] ?? []
                         
                         ForEach(subGoalsForGoal) { goal in
-                            NavigationLink(
-                                destination: EditSubGoalView(finalGoalId: goalId, taskId: goal.id!, goalName: goal.title, goalDetail: goal.description, targetDate: goal.targetDate)
-                            ) {
+                            Button(action: {
+                                withAnimation {
+                                    //showTaskDetailModal = true
+                                    self.selectedTaskId = goal.id
+                                    self.taskStatus = goal.status
+                                    self.taskTitle = goal.title
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) {
+                                        self.showTaskDetailModal = true
+                                    }
+                                }
+                            }) {
                                 SubGoalListCell(title: goal.title,
                                                 detail: goal.description,
                                                 status: goal.status,
                                                 leftDay: goal.status)
                             }
                             .buttonStyle(PlainButtonStyle())
+//                            NavigationLink(
+//                                destination: EditSubGoalView(finalGoalId: goalId, taskId: goal.id!, goalName: goal.title, goalDetail: goal.description, targetDate: goal.targetDate)
+//                            ) {
+//                                SubGoalListCell(title: goal.title,
+//                                                detail: goal.description,
+//                                                status: goal.status,
+//                                                leftDay: goal.status)
+//                            }
+//                            .buttonStyle(PlainButtonStyle())
                         }
                     }
                 }

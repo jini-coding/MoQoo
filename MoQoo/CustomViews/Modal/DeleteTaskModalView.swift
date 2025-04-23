@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DeleteTaskModalView: View {
     
-    var title: String
+    @Binding var title: String?
     var cancelButtonTapped: () -> Void
     var deleteButtonTapped: () -> Void
     
@@ -20,7 +20,7 @@ struct DeleteTaskModalView: View {
             VStack {
                 Spacer().frame(height: 20)
                 
-                Text("[\(title)]")
+                Text("[\(title ?? "선택한")]")
                     .font(.mq(.semibold, size: 20))
                     .foregroundColor(.black)
                     .padding(.bottom, 2)
@@ -48,6 +48,6 @@ struct DeleteTaskModalView: View {
     }
 }
 
-#Preview {
-    DeleteTaskModalView(title: "", cancelButtonTapped: {}, deleteButtonTapped: {})
-}
+//#Preview {
+//    DeleteTaskModalView(title: "", cancelButtonTapped: {}, deleteButtonTapped: {})
+//}

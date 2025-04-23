@@ -27,11 +27,6 @@ struct GoalView: View {
                             .offset(x: 0, y: 6)
                         
                         Spacer()
-                        
-//                        NavigationLink(destination: CreateFinalGoalView()) {
-//                            Image("plusIcon")
-//                        }
-//                        .padding(.trailing, 16)
                     }
                     
                     Spacer().frame(height: 10)
@@ -90,22 +85,6 @@ struct GoalView: View {
                 }
                 .padding(.bottom, 10)
                 .padding(.trailing, 20)
-                
-//                Button(action: {
-//                    print("Floating button tapped")
-//                }) {
-//                    ZStack {
-//                        Circle()
-//                            .fill(Color.mqMain)
-//                            .frame(width: 58, height: 58)
-//                        
-//                        Image("plusIcon_white")
-//                            .resizable()
-//                            .frame(width: 40, height: 40)
-//                    }
-//                }
-//                .padding(.bottom, 10)
-//                .padding(.trailing, 20)
                 
             }
         }

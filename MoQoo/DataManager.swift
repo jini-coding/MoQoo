@@ -205,7 +205,7 @@ class DataManager: ObservableObject {
         }
     }
 
-    func fetchTaskDetail(finalGoalId: String, taskId: String, completion: @escaping (SubGoal?) -> Void) {
+    func fetchTaskDetail(taskId: String, completion: @escaping (SubGoal?) -> Void) {
         let db = Firestore.firestore()
         let ref = db.collection("SubGoals").document(taskId)
         ref.getDocument { document, error in
@@ -404,6 +404,9 @@ class DataManager: ObservableObject {
                 print(error.localizedDescription)
             } else {
                 print("테스크 삭제 완료!!")
+                DispatchQueue.main.async {
+                    self.fetchTasks()
+                }
             }
         }
 

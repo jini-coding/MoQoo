@@ -62,7 +62,7 @@ struct EditSubGoalView: View {
             .navigationBarHidden(true)
             //.navigationTitle("서브 목표 수정")
             .onAppear {
-                dataManager.fetchTaskDetail(finalGoalId: finalGoalId, taskId: taskId) { fetchedData in
+                dataManager.fetchTaskDetail(taskId: taskId) { fetchedData in
                     self.taskDetail = fetchedData
                 }
             }

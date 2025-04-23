@@ -30,6 +30,13 @@ struct InputTextEditor: View {
                 .cornerRadius(8)
                 .scrollContentBackground(.hidden) //editor 영역 배경색 없애기
                 .frame(height: 86)
+                .scrollDisabled(true)
+                .onChange(of: text) { newValue in
+                    let lines = newValue.components(separatedBy: .newlines)
+                    if lines.count > 2 { // 세 번째 줄부터 제거
+                        self.text = lines.prefix(2).joined(separator: "\n")
+                    }
+                }
         }
         .background(Color.mqGraybg)
         .cornerRadius(8)
