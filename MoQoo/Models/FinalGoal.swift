@@ -20,4 +20,7 @@ struct FinalGoal: Identifiable, Codable {
     var createdAt: Date
     
     var subGoals: [SubGoal]
+    
+    var totalSubGoals: Int
+    var completedSubGoals: Int
 }

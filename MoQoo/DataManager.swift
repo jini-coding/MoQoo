@@ -50,8 +50,10 @@ class DataManager: ObservableObject {
                     let createdAtTimestamp = data["createdAt"] as? Timestamp
                     let createdAt = createdAtTimestamp?.dateValue() ?? Date()
                     
+                    let totalSubGoals = data["totalSubGoals"] as? Int ?? 0
+                    let completedSubGoals = data["completedSubGoals"] as? Int ?? 0
                     
-                    let goal = FinalGoal(id: id, title: title, description: description, resolution: resolution, progress: progress, moment: moment, targetDate: targetDate, colorHex: colorHex, createdAt: createdAt, subGoals: [])
+                    let goal = FinalGoal(id: id, title: title, description: description, resolution: resolution, progress: progress, moment: moment, targetDate: targetDate, colorHex: colorHex, createdAt: createdAt, subGoals: [], totalSubGoals: totalSubGoals, completedSubGoals: completedSubGoals)
                     self.finalGoals.append(goal)
                 }
             }
@@ -126,6 +128,20 @@ class DataManager: ObservableObject {
                 
                 DispatchQueue.main.async {
                     self.subGoalsDict = grouped
+                    
+                    for (index, goal) in self.finalGoals.enumerated() {
+                        if let goalId = goal.id {
+                            let relatedSubGoals = grouped[goalId] ?? []
+                            let total = relatedSubGoals.count
+                            let completed = relatedSubGoals.filter { $0.status == 2 }.count
+                            let progress = total > 0 ? Int((Double(completed) / Double(total)) * 100) : 0
+                            
+                            self.finalGoals[index].subGoals = relatedSubGoals
+                            self.finalGoals[index].totalSubGoals = total
+                            self.finalGoals[index].completedSubGoals = completed
+                            self.finalGoals[index].progress = progress
+                        }
+                    }
                 }
             }
         }
@@ -196,7 +212,10 @@ class DataManager: ObservableObject {
                 let createdAtTimestamp = data["createdAt"] as? Timestamp
                 let createdAt = createdAtTimestamp?.dateValue() ?? Date()
                 
-                let goal = FinalGoal(id: id, title: title, description: description, resolution: resolution, progress: progress, moment: moment, targetDate: targetDate, colorHex: colorHex, createdAt: createdAt, subGoals: [])
+                let totalSubGoals = data["totalSubGoals"] as? Int ?? 0
+                let completedSubGoals = data["completedSubGoals"] as? Int ?? 0
+                
+                let goal = FinalGoal(id: id, title: title, description: description, resolution: resolution, progress: progress, moment: moment, targetDate: targetDate, colorHex: colorHex, createdAt: createdAt, subGoals: [], totalSubGoals: totalSubGoals, completedSubGoals: completedSubGoals)
                 
                 DispatchQueue.main.async {
                     completion(goal)
