@@ -15,7 +15,7 @@ struct GoalView: View {
         
         NavigationStack {
             ZStack(alignment: .bottomTrailing) {
-                Color.mqLightMain.ignoresSafeArea()
+                Color.mqGoalBg.ignoresSafeArea()
                 
                 VStack {
                     Spacer().frame(height: 10)

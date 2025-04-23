@@ -47,7 +47,7 @@ struct MainView: View {
 //                        Triangle()
 //                            .offset(x: -80, y: -235) //위치 나중에 원 기준으로....
                         
-                        RoundedRectangle(cornerRadius: 8)
+                        RoundedCornerShape(radius: 8, corners: [.topLeft, .topRight])
                             .fill(.white)
                             .ignoresSafeArea()
                         
@@ -113,6 +113,19 @@ struct EmptyMainView: View {
     }
 }
 
+struct RoundedCornerShape: Shape {
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+        return Path(path.cgPath)
+    }
+}
 
 
 #Preview {

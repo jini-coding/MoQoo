@@ -11,6 +11,23 @@ struct MainDashboardView: View {
     @EnvironmentObject var dataManager: DataManager
     @Binding var selectedGoalId: String?
     
+    var today: Date {
+        return Date()
+    }
+    
+    var dayOfWeek: String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.dateFormat = "E" // 요일
+        return formatter.string(from: today)
+    }
+
+    var dayNumber: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d" // 일자
+        return formatter.string(from: today)
+    }
+    
     var body: some View {
         ZStack {
             Color.white.ignoresSafeArea()
@@ -23,10 +40,10 @@ struct MainDashboardView: View {
             
             HStack {
                 VStack {//월
-                    Text("월")
+                    Text(dayOfWeek)
                         .font(.mq(.semibold, size: 14))
                     
-                    Text("14")
+                    Text(dayNumber)
                         .font(.mq(.semibold, size: 13))
                         //.padding(.bottom, 1)
                     
@@ -56,13 +73,15 @@ struct MainDashboardView: View {
                             .padding(.horizontal, 6)
                             .padding(.vertical, 6)
                             .background(
-                                selectedGoalId == goal.id ? Color.mqGraybg.opacity(0.6) : Color.clear
+                                selectedGoalId == goal.id ? Color.mqGoalBg.opacity(0.7) : Color.clear
                             )
                             .cornerRadius(8)
 //                            .overlay(
-//                                RoundedRectangle(cornerRadius: 10)
-//                                    .stroke(Color.mqGrayPlaceholder, lineWidth: 1.5)
-//                                    .shadow(radius: 4)
+//                                RoundedRectangle(cornerRadius: 8)
+//                                    .stroke(
+//                                        selectedGoalId == goal.id ? Color.mqMain : Color.clear, lineWidth: 1
+//                                    )
+//                                    //.shadow(radius: 4)
 //                            )
                         }
                     }
@@ -79,15 +98,6 @@ struct MainDashboardView: View {
         //.background(Color.mqGraybg)
         .cornerRadius(12)
         .padding(.horizontal, 16)
-    }
-}
-
-struct currentState: View {
-    
-    var body: some View {
-        ZStack {
-            
-        }
     }
 }
 

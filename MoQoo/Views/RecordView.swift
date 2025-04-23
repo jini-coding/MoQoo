@@ -11,10 +11,23 @@ struct RecordView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                
+            ZStack {
+                Color.mqGoalBg.ignoresSafeArea()
+
+                VStack {
+                    Spacer().frame(height: 23)
+                    
+                    Image("calendar")
+                        .resizable()
+                        .frame(height: 574)
+                        .padding(.horizontal, 18)
+                    
+                    Spacer()
+                }
             }
+            
         }
+
         
     }
 }

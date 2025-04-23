@@ -45,7 +45,7 @@ struct EditSubGoalView: View {
                 VStack(spacing: 2) {
                     InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName, textLength: $goalNameLength, lengthLimit: 14)
                     
-                    InputSection(title: "목표 상세 설명", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, textLength: $goalDetailLength, lengthLimit: 40, isMultiline: true)
+                    InputSection(title: "상세 설명", placeholder: "상세 설명을 입력해주세요", text: $goalDetail, textLength: $goalDetailLength, lengthLimit: 40, isMultiline: true)
                     
                     DatePickerSection(title: "목표일", placeholder: "목표일을 설정해주세요", targetDate: $targetDate)
                     

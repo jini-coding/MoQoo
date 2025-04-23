@@ -49,4 +49,6 @@ struct CustomTabView: View {
 
 #Preview {
     TabBarView()
+        .environmentObject(DataManager())
+        .environmentObject(GoalViewModel())
 }
