@@ -13,10 +13,12 @@ struct TaskDetailModalView: View {
     
     @EnvironmentObject var dataManager: DataManager
     
+    @State private var goalDetail: FinalGoal? = nil
     @State private var taskDetail: SubGoal? = nil
     @Binding var showTaskDetailModal: Bool
     @Binding var selectedStatus: Int?
     
+    var goalId: String
     var taskId: String
     
     var goalStatus: GoalStatus {

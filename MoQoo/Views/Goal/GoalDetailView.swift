@@ -56,7 +56,11 @@ struct GoalDetailView: View {
                             }) {
                                 Image("addIcon")
                             }
-                            .sheet(isPresented: $isPresentingSubGoalSheet) {
+                            .sheet(isPresented: $isPresentingSubGoalSheet, onDismiss: {
+                                dataManager.fetchGoalDetail(goalId: goalId) { fetchedData in
+                                    self.goalDetail = fetchedData
+                                }
+                            }) {
                                 CreateSubGoalView(finalGoalId: goalId)
                                     .presentationDetents([.fraction(0.7)])
                                     .presentationDragIndicator(.visible)
@@ -147,8 +151,8 @@ struct GoalDetailView: View {
                 VStack {
                     TaskDetailModalView(showTaskDetailModal: $showTaskDetailModal,
                                         selectedStatus: $taskStatus,
-                                        taskId: selectedTaskId!,
-                                        deleteButtonTapped: {                    
+                                        goalId: goalId, taskId: selectedTaskId!,
+                                        deleteButtonTapped: {
                         withAnimation {
                             showTaskDeleteModal = true
                     }},
@@ -161,6 +165,11 @@ struct GoalDetailView: View {
                         }
                         
                     })
+                    .onDisappear {
+                        dataManager.fetchGoalDetail(goalId: goalId) { fetchedData in
+                            self.goalDetail = fetchedData
+                        }
+                    }
                 }
             }
             
@@ -177,6 +186,11 @@ struct GoalDetailView: View {
                         }
                         dataManager.deleteTask(taskId: selectedTaskId!)
                     })
+                    .onDisappear {
+                        dataManager.fetchGoalDetail(goalId: goalId) { fetchedData in
+                            self.goalDetail = fetchedData
+                        }
+                    }
                 }
             }
             
@@ -188,6 +202,11 @@ struct GoalDetailView: View {
                             showTaskDetailModal = false
                         }
                     })
+                    .onDisappear {
+                        dataManager.fetchGoalDetail(goalId: goalId) { fetchedData in
+                            self.goalDetail = fetchedData
+                        }
+                    }
                 }
             }
         }
@@ -297,7 +316,6 @@ struct GoalDetailView: View {
                         ForEach(subGoalsForGoal) { goal in
                             Button(action: {
                                 withAnimation {
-                                    //showTaskDetailModal = true
                                     self.selectedTaskId = goal.id
                                     self.taskStatus = goal.status
                                     self.taskTitle = goal.title
@@ -312,15 +330,6 @@ struct GoalDetailView: View {
                                                 leftDay: goalViewModel.calculateDday(from: goal.targetDate))
                             }
                             .buttonStyle(PlainButtonStyle())
-//                            NavigationLink(
-//                                destination: EditSubGoalView(finalGoalId: goalId, taskId: goal.id!, goalName: goal.title, goalDetail: goal.description, targetDate: goal.targetDate)
-//                            ) {
-//                                SubGoalListCell(title: goal.title,
-//                                                detail: goal.description,
-//                                                status: goal.status,
-//                                                leftDay: goal.status)
-//                            }
-//                            .buttonStyle(PlainButtonStyle())
                         }
                     }
                 }

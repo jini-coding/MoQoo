@@ -316,6 +316,7 @@ class DataManager: ObservableObject {
                 print("테스크 생성완료!!")
                 DispatchQueue.main.async {
                     self.fetchTasks()
+                    self.updateFinalGoalProgress(goalId: finalGoalId)
                 }
             }
         }
@@ -418,14 +419,27 @@ class DataManager: ObservableObject {
     
     func deleteTask(taskId: String) {
         let db = Firestore.firestore()
-        let ref = db.collection("SubGoals").document(taskId).delete() { error in
-            if let error = error {
-                print(error.localizedDescription)
-            } else {
-                print("테스크 삭제 완료!!")
-                DispatchQueue.main.async {
-                    self.fetchTasks()
+        let subGoalRef = db.collection("SubGoals").document(taskId)
+
+        subGoalRef.getDocument { document, error in
+            if let document = document, document.exists {
+                if let finalGoalId = document.data()?["finalGoalId"] as? String {
+                    subGoalRef.delete { error in
+                        if let error = error {
+                            print("삭제 실패: \(error.localizedDescription)")
+                        } else {
+                            print("테스크 삭제 완료!!")
+                            DispatchQueue.main.async {
+                                self.fetchTasks()
+                                self.updateFinalGoalProgress(goalId: finalGoalId)
+                            }
+                        }
+                    }
+                } else {
+                    print("finalGoalId가 없음")
                 }
+            } else {
+                print("SubGoal 문서 가져오기 실패")
             }
         }
 
@@ -439,13 +453,62 @@ class DataManager: ObservableObject {
         
         ref.setData(updatedStatus, merge: true) { error in
             if let error = error {
-                print(error.localizedDescription)
-            } else {
-                print("상태 업데이트 완료!!")
-                DispatchQueue.main.async {
-                    self.fetchTasks()
+                print("상태 업데이트 실패: \(error.localizedDescription)")
+                return
+            }
+            
+            print("상태 업데이트 완료!!")
+            
+            ref.getDocument { document, error in
+                if let document = document, document.exists {
+                    if let finalGoalId = document.data()?["finalGoalId"] as? String {
+                        DispatchQueue.main.async {
+                            self.fetchTasks()
+                            self.updateFinalGoalProgress(goalId: finalGoalId)
+                        }
+                    } else {
+                        print("finalGoalId 없음")
+                    }
+                } else {
+                    print("SubGoal 문서 가져오기 실패")
                 }
             }
         }
     }
+    
+    func updateFinalGoalProgress(goalId: String) {
+        let db = Firestore.firestore()
+        let subGoalRef = db.collection("SubGoals").whereField("finalGoalId", isEqualTo: goalId)
+        let finalGoalRef = db.collection("FinalGoals").document(goalId)
+
+        subGoalRef.getDocuments { snapshot, error in
+            guard let documents = snapshot?.documents, error == nil else {
+                print("\(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+
+            let total = documents.count
+            let completed = documents.filter { doc in
+                let status = doc.data()["status"] as? Int ?? 0
+                return status == 2
+            }.count
+
+            let progress = total > 0 ? Int((Double(completed) / Double(total)) * 100) : 0
+
+            finalGoalRef.updateData([
+                "totalSubGoals": total,
+                "completedSubGoals": completed,
+                "progress": progress
+            ]) { error in
+                if let error = error {
+                    print("\(error.localizedDescription)")
+                } else {
+                    print("progress 업데이트 완료")
+                    self.fetchGoals()
+                }
+            }
+        }
+    }
+
+    
 }
