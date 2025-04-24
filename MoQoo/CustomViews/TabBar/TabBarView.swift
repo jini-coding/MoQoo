@@ -15,6 +15,8 @@ enum Tab {
 }
 
 struct TabBarView: View {
+    //@StateObject var tabBarVisibilityManager = TabBarVisibilityManager()
+    
     @State var selectedTab: Tab = .home
     
     var body: some View {
@@ -33,7 +35,11 @@ struct TabBarView: View {
                 MypageView()
             }
             CustomTabView(selectedTab: $selectedTab)
+//            if tabBarVisibilityManager.isVisible {
+//                CustomTabView(selectedTab: $selectedTab)
+//            }
         }
+        //.environmentObject(tabBarVisibilityManager)
     }
     
     

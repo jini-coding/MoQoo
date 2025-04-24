@@ -15,6 +15,7 @@ struct GoalDetailView: View {
     
     @EnvironmentObject var dataManager: DataManager
     @EnvironmentObject var goalViewModel: GoalViewModel
+    //@EnvironmentObject var tabBarVisibilityManager: TabBarVisibilityManager
     @Environment(\.dismiss) var dismiss
     
     @State private var selectedTaskId: String? = nil
@@ -197,6 +198,11 @@ struct GoalDetailView: View {
         ) {
             EmptyView()
         }
+//        .background(
+//            EmptyView()
+//                .onAppear { tabBarVisibilityManager.isVisible = false }
+//                .onDisappear { tabBarVisibilityManager.isVisible = true }
+//        )
     }
     
     var detailview: some View {
