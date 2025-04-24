@@ -55,9 +55,9 @@ struct CreateFinalGoalView: View {
                 
                 Spacer()
                 
-                BottomButton(label: "생성") {
+                BottomButton(label: "생성", action: {
                     createGoal()
-                }
+                }, isEnabled: isFormValid())
             }
             .navigationBarHidden(true)
             //.navigationTitle("목표 생성")
@@ -75,6 +75,13 @@ struct CreateFinalGoalView: View {
         }
         dataManager.createFinalGoal(title: goalName, description: goalDetail, targetDate: targetDate, colorHex: colorHex)
         print("골 생성")
+    }
+    
+    func isFormValid() -> Bool {
+        return !goalName.isEmpty &&
+               !goalDetail.isEmpty &&
+               !colorHex.isEmpty &&
+               targetDate > Date()
     }
 }
 

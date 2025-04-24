@@ -10,28 +10,30 @@ import SwiftUI
 struct BottomButton: View {
     var label: String
     var action: () -> Void
+    var isEnabled: Bool
     
     var body: some View {
-        Button(action: action) {
+        Button(action: {
+            if isEnabled {
+                action()
+            }
+        }) {
             ZStack {
                 // 버튼 배경
-                Color.mqMain
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                (isEnabled ? Color.mqMain : Color.mqGrayStatusBg)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
                 
                 // 텍스트
                 Text(label)
                     .font(.mq(.semibold, size: 18))
-                    .foregroundColor(.white)
+                    .foregroundColor(isEnabled ? .white : .mqGray)
                 
             }
             .frame(height: 52)
             .padding(.horizontal, 16)
             
-            //이후에 활성화 조건 추가
+            .disabled(!isEnabled)
         }
     }
 }
 
-#Preview {
-    BottomButton(label: "생성하기", action: {})
-}

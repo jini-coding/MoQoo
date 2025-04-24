@@ -63,9 +63,9 @@ struct CreateSubGoalView: View {
                 
                 Spacer()
                 
-                BottomButton(label: "생성") {
+                BottomButton(label: "생성", action: {
                     createGoal()
-                }
+                }, isEnabled: isFormValid())
             }
             .navigationBarHidden(true)
             //.navigationTitle("서브 목표 생성")
@@ -86,6 +86,12 @@ struct CreateSubGoalView: View {
         }
         dataManager.createTask(finalGoalId: finalGoalId, title: goalName, description: goalDetail, targetDate: targetDate, priority: 1)
         print("테스크 생성")
+    }
+    
+    func isFormValid() -> Bool {
+        return !goalName.isEmpty &&
+               !goalDetail.isEmpty &&
+               targetDate > Date()
     }
 }
 

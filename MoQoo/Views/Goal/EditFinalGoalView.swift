@@ -74,7 +74,7 @@ struct EditFinalGoalView: View {
             Spacer()
             
             BottomButton(label: "완료", 
-                         action: { editGoal() }
+                         action: { editGoal() }, isEnabled: true
             )
         }
         .navigationBarHidden(true)

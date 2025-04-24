@@ -62,7 +62,7 @@ struct EditSubGoalView: View {
                 Spacer()
                 
                 BottomButton(label: "완료",
-                             action: { editTask() }
+                             action: { editTask() }, isEnabled: true
                 )
             }
             .navigationBarHidden(true)
