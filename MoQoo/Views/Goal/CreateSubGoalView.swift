@@ -41,7 +41,7 @@ struct CreateSubGoalView: View {
                 
                 Spacer().frame(height: 28)
                 
-                Text("테스크 생성")
+                Text("서브 목표 생성") //테스크
                     .font(.mq(.semibold, size: 18))
                 
                 Spacer().frame(height: 28)

@@ -24,6 +24,7 @@ struct GoalDetailView: View {
     @State private var isShowingCreateSubGoalView = false
     @State private var isShowingCreateFinalGoalView = false
     @State private var isPresentingSubGoalSheet = false
+    @State private var isPresentingEditTaskView = false
     @State private var navigateToSubGoal = false
     @State private var showMenuModal = false
     @State private var showDeleteModal = false
@@ -90,6 +91,21 @@ struct GoalDetailView: View {
                     self.goalDetail = fetchedData
                 }
             }
+            .sheet(isPresented: $isPresentingEditTaskView) {
+                if let taskId = selectedTaskId,
+                   let subGoal = dataManager.subGoalsDict[goalId]?.first(where: { $0.id == taskId }) {
+                    EditSubGoalView(
+                        finalGoalId: goalId,
+                        taskId: subGoal.id!,
+                        goalName: subGoal.title,
+                        goalDetail: subGoal.description,
+                        targetDate: subGoal.targetDate
+                    )
+                    .presentationDetents([.fraction(0.7)])
+                    .presentationDragIndicator(.visible)
+                }
+            }
+
             
             if showMenuModal {
                 MenuModalView(editButtonTapped: {
@@ -136,6 +152,12 @@ struct GoalDetailView: View {
                             showTaskDeleteModal = true
                     }},
                                         editButtonTapped: {
+                        withAnimation {
+                            showTaskDetailModal = false
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            isPresentingEditTaskView = true
+                        }
                         
                     })
                 }

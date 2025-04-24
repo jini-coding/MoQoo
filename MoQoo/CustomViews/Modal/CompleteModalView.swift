@@ -17,8 +17,8 @@ struct CompleteModalView: View {
     
     var body: some View {
         ZStack {
-            Color.black.opacity(0.4)
-                .ignoresSafeArea()
+//            Color.black.opacity(0.4)
+//                .ignoresSafeArea()
             
             switch task {
             case 1: completeCreatFinalGoalView

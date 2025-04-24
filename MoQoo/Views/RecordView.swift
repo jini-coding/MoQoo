@@ -19,8 +19,9 @@ struct RecordView: View {
                     
                     Image("calendar")
                         .resizable()
-                        .frame(height: 574)
+                        .frame(height: 590)
                         .padding(.horizontal, 18)
+                        .offset(x: 1, y: -8.5)
                     
                     Spacer()
                 }

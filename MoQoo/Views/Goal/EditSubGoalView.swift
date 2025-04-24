@@ -30,17 +30,22 @@ struct EditSubGoalView: View {
     var body: some View {
         ZStack {
             VStack {
-                NavigationBar {
-                    Text("서브 목표 수정")
-                        .font(.mq(.semibold, size: 18))
-                } leading: {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image("backIcon") }
-                }
+//                NavigationBar {
+//                    Text("테스크 수정")
+//                        .font(.mq(.semibold, size: 18))
+//                } leading: {
+//                    Button(action: {
+//                        dismiss()
+//                    }) {
+//                        Image("backIcon") }
+//                }
                 
-                Spacer().frame(height: 36)
+                Spacer().frame(height: 28)
+                
+                Text("서브 목표 수정") //테스크
+                    .font(.mq(.semibold, size: 18))
+                
+                Spacer().frame(height: 28)
                 
                 VStack(spacing: 2) {
                     InputSection(title: "목표 이름", placeholder: "목표 이름을 입력해주세요", text: $goalName, textLength: $goalNameLength, lengthLimit: 14)
@@ -56,12 +61,15 @@ struct EditSubGoalView: View {
                 
                 Spacer()
                 
-                BottomTwoButton(cancelLabel: "취소", cancelAction: {},
-                                confirmLabel: "완료", confirmAction: { editTask() })
+                BottomButton(label: "완료",
+                             action: { editTask() }
+                )
             }
             .navigationBarHidden(true)
             //.navigationTitle("서브 목표 수정")
             .onAppear {
+                goalNameLength = goalName.count
+                goalDetailLength = goalDetail.count
                 dataManager.fetchTaskDetail(taskId: taskId) { fetchedData in
                     self.taskDetail = fetchedData
                 }

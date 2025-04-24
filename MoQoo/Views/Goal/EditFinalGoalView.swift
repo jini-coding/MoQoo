@@ -73,12 +73,15 @@ struct EditFinalGoalView: View {
             
             Spacer()
             
-            BottomTwoButton(cancelLabel: "취소", cancelAction: { dismiss() },
-                            confirmLabel: "완료", confirmAction: { editGoal() }
+            BottomButton(label: "완료", 
+                         action: { editGoal() }
             )
         }
         .navigationBarHidden(true)
         .onAppear {
+            goalNameLength = goalName.count
+            goalDetailLength = goalDetail.count
+            //resolutionLength = goalResolution.count
             print("EditFinalGoalView appeared!")
             //dataManager.fetchGoalDetail(id: goalId) 오류...
         }

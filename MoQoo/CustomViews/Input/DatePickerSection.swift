@@ -75,6 +75,14 @@ struct DatePickerSection: View {
                     .labelsHidden()
                     .tint(.mqMain)
                     .colorMultiply(.clear)
+                    
+                    DatePicker(
+                        "",
+                        selection: $targetDate, in: dateClosedRange, displayedComponents: .date)
+                    .datePickerStyle(.compact)
+                    .labelsHidden()
+                    .tint(.mqMain)
+                    .colorMultiply(.clear)
                 }
 
             }
