@@ -11,7 +11,7 @@ struct SubGoalListCell: View {
     var title: String
     var detail: String
     var status: Int
-    var leftDay: Int
+    var leftDay: String
     //var endDate: String = ""
     
     var goalStatus: GoalStatus {
@@ -33,7 +33,7 @@ struct SubGoalListCell: View {
                     
                     Spacer()
                     
-                    Text("D - \(leftDay)")
+                    Text("\(leftDay)")
                         .font(.mq(.bold, size: 14))
                         .foregroundColor(Color(hex: "#F54646"))
                         .padding(.trailing, 28)
@@ -78,6 +78,6 @@ struct SubGoalListCell: View {
     }
 }
 
-#Preview {
-    SubGoalListCell(title: "🔴  단축키 외우기", detail: "기본은 단축키 외우기지!", status: 0, leftDay: 3)
-}
+//#Preview {
+//    SubGoalListCell(title: "🔴  단축키 외우기", detail: "기본은 단축키 외우기지!", status: 0, leftDay: 3)
+//}

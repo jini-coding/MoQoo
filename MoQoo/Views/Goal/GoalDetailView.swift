@@ -309,7 +309,7 @@ struct GoalDetailView: View {
                                 SubGoalListCell(title: goal.title,
                                                 detail: goal.description,
                                                 status: goal.status,
-                                                leftDay: goal.status)
+                                                leftDay: goalViewModel.calculateDday(from: goal.targetDate))
                             }
                             .buttonStyle(PlainButtonStyle())
 //                            NavigationLink(
