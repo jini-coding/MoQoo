@@ -93,7 +93,7 @@ struct EditFinalGoalView: View {
         withAnimation {
             showCompleteModal = true
         }
-        dataManager.editFinalGoal(goalId: goalId, title: goalName, description: goalDetail, targetDate: targetDate)
+        dataManager.editFinalGoal(goalId: goalId, title: goalName, description: goalDetail, targetDate: targetDate, colorHex: colorHex)
         print("골 수정완료!!!!---")
     }
     

@@ -323,7 +323,7 @@ class DataManager: ObservableObject {
         
     }
     
-    func editFinalGoal(goalId: String, title: String, description: String, targetDate: Date) {
+    func editFinalGoal(goalId: String, title: String, description: String, targetDate: Date, colorHex: String) {
         let db = Firestore.firestore()
         let ref = db.collection("FinalGoals").document(goalId)
         
@@ -334,7 +334,7 @@ class DataManager: ObservableObject {
                 "resolution": "아아아아아아아아",
                 "progress": 2,
                 "targetDate": Timestamp(date: targetDate),
-                "colorHex": "#FFCC00"
+                "colorHex": "#\(colorHex)"
         ]
         
         ref.setData(updatedGoal, merge: true) { error in
